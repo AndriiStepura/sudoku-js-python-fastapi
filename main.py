@@ -43,3 +43,7 @@ def new_grid(gridId:str="mock1"):
 # curl --location 'http://127.0.0.1:8000/newgrid?gridId=mock1' 
 # curl --location 'http://127.0.0.1:8000/newgrid?gridId=mock2'
 # curl --location 'http://127.0.0.1:8000/newgrid?gridId=mock3' - 404 
+
+
+#TODO for next versions use structure with routers
+# https://fastapi.tiangolo.com/tutorial/bigger-applications/#an-example-file-structure
