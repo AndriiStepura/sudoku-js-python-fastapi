@@ -15,3 +15,25 @@ pip install uvicorn
 
 To run back-end python with fast API in root folder path execute in terminal:
 ```uvicorn main:app --reload```
+
+
+# Endpoints notes
+Health check endpoint GET /
+```curl --location 'http://127.0.0.1:8000/'```  
+
+
+Get new game board GET /newgrid
+```curl --location 'http://127.0.0.1:8000/newgrid'```  
+
+
+Get new game board POST /verifygrid  
+```curl --location 'http://127.0.0.1:8000/verifygrid'```  
+PARAMS TBD
+
+
+# Unit tests
+We use pytest for unit tests to configure your VSC IDE run:  
+```Python: Configure Tests```
+
+To run all unit tests:  
+```python -m pytest -vv```
