@@ -18,6 +18,8 @@ To run back-end python with fast API in root folder path execute in terminal:
 
 
 # Endpoints notes
+Documentation - http://127.0.0.1:8000/docs  
+
 Health check endpoint GET /
 ```curl --location 'http://127.0.0.1:8000/'```  
 
