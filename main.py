@@ -1,4 +1,3 @@
-import json
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -16,13 +15,6 @@ class BoardCell(object):
         self.changeable = changeable
         self.value = value
 
-    # workaround for serialisation by https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable
-    def toJSON(self):
-        return json.dumps(
-            self,
-            default=lambda o: o.__dict__, 
-            sort_keys=False,
-            indent=4)
 
 def make_boardCell(x, y, changeable=True, value=""):
     cell = BoardCell(x, y, changeable, value)
@@ -45,8 +37,7 @@ def root():
     return {
             "gridId": "mock1",
             "grid": [
-                     json.loads(a1.toJSON()),
-                     json.loads(a2.toJSON())
+                     mock1
                     ],
             "error": None
         }
