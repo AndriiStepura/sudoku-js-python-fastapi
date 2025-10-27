@@ -42,9 +42,16 @@ def verify_grid(gridId, grid):
     # error3 = wrongCell(x=0,y=*,cellErrorMessage="Horisontal Duplicates found")
     # verifyGrifResults.errorCells.append(error3)
 
-    #TODO add here def verify_regions function to return duplicates through regions check
+    #TODO add here def verify_regions function to return duplicates after regions check
     #And add them to errorCells list
     # error4 = wrongCell(x=n*3,y=n*3,cellErrorMessage="Regional Duplicates found")
     # verifyGrifResults.errorCells.append(error4)
+
+    #TODO add here def verify_empty_cells function to return info about not populated cells
+    #And add them to errorCells list
+    # error4 = wrongCell(x=any,y=any,cellErrorMessage="No value")
+    # verifyGrifResults.errorCells.append(error4)
+    # verifyGrifResults.errorsMessage = "To finish sudoky all cells should be populated with valuse 1-9"
+
 
     return verifyGrifResults
