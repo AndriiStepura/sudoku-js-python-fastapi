@@ -39,3 +39,7 @@ We use pytest for unit tests to configure your VSC IDE run:
 
 To run all unit tests:  
 ```python -m pytest -vv```
+
+To debug app locally in VSC IDE follow guide   
+https://fastapi.tiangolo.com/tutorial/debugging/#run-your-code-with-your-debugger
+or navigate to Run and Debug (Ctrl+Shift+D and F5 to start)
