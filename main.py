@@ -1,5 +1,5 @@
 from board_mocks import mock1, mock2
-from verify_grid import verify_grid, wrongCell, validationResult
+from verify_grid import verify_grid, RequestVerifyGrid
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ def root():
 
 # Endpoint to get new game board
 @app.get("/newgrid")
-def new_grid(gridId:str="mock1"):
+def get_newgrid(gridId:str="mock1"):
     gridInResponse = []
     responseErrors = []
 
@@ -49,17 +49,7 @@ def new_grid(gridId:str="mock1"):
 # https://fastapi.tiangolo.com/tutorial/bigger-applications/#an-example-file-structure
 
 
-class GridValidation(BaseModel):
-    gridId: str
-    grid: list
-    errorCells: list[wrongCell] | None = None # No errors expected in req but we want to return them in resp
-    errorsMessage: str | None = None # String for UI error
-
 @app.post("/verifygrid/")
-async def grid_validation(request: GridValidation):        
-    response = request
-    responseValidationResult = validationResult
+async def post_verifygrid(request: RequestVerifyGrid):
     responseValidationResult = verify_grid(request.gridId, request.grid)
-    response.errorCells = responseValidationResult.errorCells
-    response.errorsMessage = responseValidationResult.errorsMessage
-    return response
+    return responseValidationResult
