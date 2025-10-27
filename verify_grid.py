@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+
 class wrongCell(BaseModel):
     x: int 
     y: int

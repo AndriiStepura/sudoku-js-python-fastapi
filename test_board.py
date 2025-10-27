@@ -9,7 +9,7 @@ def test_default_BoardCell():
     assert defaultBoardCell.value is None
 
 def test_BoardCell_for_non_editable_cell():
-    boardCellForNonEditable = make_boardCell(1,2,False,5)    
+    boardCellForNonEditable = make_boardCell(1,2,False,5)
     assert boardCellForNonEditable.x == 1
     assert boardCellForNonEditable.y == 2
     assert boardCellForNonEditable.changeable == False
