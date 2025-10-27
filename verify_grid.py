@@ -34,22 +34,26 @@ def verify_grid(gridId, grid):
 
     #TODO add here def verify_vertical_lines function to return duplicates after vertical lines check
     #And add them to errorCells list
-    # error2 = wrongCell(x=*,y=0,cellErrorMessage="Vertical Duplicates found")
+    # error2 = wrongCell(x=*,y=0,cellErrorMessage="Vertical row duplicate")
     # verifyGrifResults.errorCells.append(error2)
+    # verifyGrifResults.errorsMessage = "Numbers should not be repeated in a vertical row."
+
 
     #TODO add here def verify_horisontal_lines function to return duplicates after horisontal lines check
     #And add them to errorCells list
-    # error3 = wrongCell(x=0,y=*,cellErrorMessage="Horisontal Duplicates found")
+    # error3 = wrongCell(x=0,y=*,cellErrorMessage="Horisontal row duplicate")
     # verifyGrifResults.errorCells.append(error3)
+    # verifyGrifResults.errorsMessage = "Numbers should not be repeated in a horizontal row."
 
     #TODO add here def verify_regions function to return duplicates after regions check
     #And add them to errorCells list
-    # error4 = wrongCell(x=n*3,y=n*3,cellErrorMessage="Regional Duplicates found")
+    # error4 = wrongCell(x=n*3,y=n*3,cellErrorMessage="Regional block duplicate")
     # verifyGrifResults.errorCells.append(error4)
+    # verifyGrifResults.errorsMessage = "Numbers should not be repeated in region block."
 
     #TODO add here def verify_empty_cells function to return info about not populated cells
     #And add them to errorCells list
-    # error4 = wrongCell(x=any,y=any,cellErrorMessage="No value")
+    # error4 = wrongCell(x=any,y=any,cellErrorMessage="Missed value")
     # verifyGrifResults.errorCells.append(error4)
     # verifyGrifResults.errorsMessage = "To finish sudoky all cells should be populated with valuse 1-9"
 

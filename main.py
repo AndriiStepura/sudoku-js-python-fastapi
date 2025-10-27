@@ -51,5 +51,6 @@ def get_newgrid(gridId:str="mock1"):
 
 @app.post("/verifygrid/")
 async def post_verifygrid(request: RequestVerifyGrid):
+    #TODO move error strings to common util for DRY
     responseValidationResult = verify_grid(request.gridId, request.grid)
     return responseValidationResult
