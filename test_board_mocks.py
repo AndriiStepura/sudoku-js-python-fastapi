@@ -43,4 +43,6 @@ def test_default_BoardCell():
     result = convert_board(mock_as_ints)
 
     # This asserts equality *by values* (deep comparison)
+    # "Converting a Python object to a JSON string using json.dumps():"
+    # by https://www.zyte.com/blog/json-parsing-with-python/
     assert BoardEncoder().encode(result) == json.dumps(expectedMockForJSON)
