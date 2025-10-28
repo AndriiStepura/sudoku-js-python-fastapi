@@ -43,7 +43,7 @@ def test_verify_grid_cheating_error():
             # Here we simulate change 5 to bad value 0 in x:0,y:0
             # and change 0 to good value 3 in x:7,y:1
             # and change 8 to bad value 2 in x:3,y:4
-            # and change 0 to good value 3 in x:2,y:5
+            # and change 0 to good value 5 in x:2,y:5
             [0, 3, 0, 0, 7, 0, 0, 0, 0],
             [6, 0, 0, 1, 9, 5, 0, 3, 0],
             [0, 9, 8, 0, 0, 0, 0, 6, 0],
@@ -56,13 +56,13 @@ def test_verify_grid_cheating_error():
         ],
     )
     assert verifyGrifResult.gridId == "mock1"
-    # And expecting that these values are returned in response
+    # And expecting that non editable values are fixed and returned in response
     assert verifyGrifResult.grid == [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
         [6, 0, 0, 1, 9, 5, 0, 3, 0],
         [0, 9, 8, 0, 0, 0, 0, 6, 0],
         [8, 0, 0, 0, 6, 0, 0, 0, 3],
-        [4, 0, 0, 8, 5, 3, 0, 0, 1],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
         [7, 0, 5, 0, 2, 0, 0, 0, 6],
         [0, 6, 0, 0, 0, 0, 2, 8, 0],
         [0, 0, 0, 4, 1, 9, 0, 0, 5],
@@ -73,7 +73,7 @@ def test_verify_grid_cheating_error():
         x=0, y=0, cellErrorMessage="Cheating"
     )
     assert verifyGrifResult.errorCells[1] == wrongCell(
-        x=3, y=4, cellErrorMessage="Cheating"
+        x=4, y=3, cellErrorMessage="Cheating"
     )
     assert (
         verifyGrifResult.errorsMessages[0]

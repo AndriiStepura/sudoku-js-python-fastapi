@@ -72,41 +72,35 @@ def verify_cheating_helper(verifyGridResultsIn: ResponseVerifyGrid):
     mocks = {"mock1": mock1, "mock2": mock2}
     originalGrid = mocks.get(verifyGridResultsIn.gridId)
 
-    verifyGridResultsAfterCheatingCheck.errorCells = cheating_helper_iterator(
-        originalGrid, verifyGridResultsIn.grid
+    verifyGridResultsAfterCheatingCheck = cheating_helper_iterator(
+        originalGrid, verifyGridResultsAfterCheatingCheck
     )
-
-    # Simulate wrong cell
-    # verifyGridResultsAfterCheatingCheck.errorCells.append(
-    #     wrongCell(x=0, y=0, cellErrorMessage="Cheating")
-    # )
-    # verifyGridResultsAfterCheatingCheck.errorCells.append(
-    #     wrongCell(x=3, y=4, cellErrorMessage="Cheating")
-    # )
-    # verifyGridResultsAfterCheatingCheck.errorsMessages.append(
-    #     "No cheating! You cannot change the starting grid values."
-    # )
+    if len(verifyGridResultsAfterCheatingCheck.errorCells) > 0:
+        verifyGridResultsAfterCheatingCheck.errorsMessages.append("No cheating! You cannot change the starting grid values.")
+    
     return verifyGridResultsAfterCheatingCheck
 
 
 def cheating_helper_iterator(
-    original: List[BoardCell], fromUser: List[BoardCell]
+    original: List[BoardCell], fromUser: ResponseVerifyGrid
 ) -> List[wrongCell]:
-    wrong_cells = []
+        
     fromUserAsABoard = List[BoardCell]
-    fromUserAsABoard = convert_board(fromUser)
+    fromUserAsABoard = convert_board(fromUser.grid)
     
     # Compare cell by cell to verify same value for non changeble cells)
     for original_cell, user_cell in zip(original, fromUserAsABoard):
         if not original_cell.changeable:
-            if original_cell.value != user_cell.value:
-                # Overwrite back
-                user_cell.value = original_cell.value
-                wrong_cells.append(
+            if original_cell.value != user_cell.value:                                
+                # Report 
+                fromUser.errorCells.append(
                     wrongCell(
                         x=original_cell.x,
                         y=original_cell.y,
                         cellErrorMessage="Cheating"
                     )
                 )
-    return wrong_cells
+                # Overwrite value back
+                (fromUser.grid[original_cell.x])[original_cell.y] = original_cell.value
+
+    return fromUser
