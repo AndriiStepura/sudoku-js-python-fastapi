@@ -1,13 +1,13 @@
-#Default board cell object
+# Default board cell object
 class BoardCell(object):
     x = 0
     y = 0
     changeable = True
     value = None
-        
+
     def __init__(self, x, y, changeable, value):
         self.x = x
-        self.y = y        
+        self.y = y
         self.changeable = changeable
         self.value = value
 

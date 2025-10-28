@@ -43,3 +43,7 @@ To run all unit tests:
 To debug app locally in VSC IDE follow guide   
 https://fastapi.tiangolo.com/tutorial/debugging/#run-your-code-with-your-debugger
 or navigate to Run and Debug (Ctrl+Shift+D and F5 to start)
+
+
+# Formatting
+https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
