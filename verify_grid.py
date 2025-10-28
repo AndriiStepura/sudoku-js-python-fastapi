@@ -24,16 +24,14 @@ class ResponseVerifyGrid(BaseModel):
 
 # Verify grid
 def verify_grid(gridId, grid):
-    verifyGrifResults = ResponseVerifyGrid(
-        gridId=gridId, grid=grid, errorCells=[], errorsMessage=None
+    verifyGridResults = ResponseVerifyGrid(
+        gridId=gridId, grid=grid, errorCells=[], errorsMessages=[]
     )
 
     # verifyGridResults.gridId = gridId # no need for modifications for gridId
 
     # If post grid with try to overwright changeable=False base cells - throw Critical allert back
-    # error1 = wrongCell(x=0,y=2,cellErrorMessage="Cheating")
-    # verifyGrifResults.errorCells.append(error1)
-    # verifyGrifResults.errorsMessage = "No cheating! You cannot change the starting grid values."
+    verifyGridResults = verify_cheating_helper(verifyGridResults)
 
     # if error returned propagate it through errorsMessages response property
     originalNonChangeableGridCells = grid
@@ -64,4 +62,51 @@ def verify_grid(gridId, grid):
     # verifyGridResults.errorCells.append(error4)
     # verifyGridResults.errorsMessages = "To finish sudoky all cells should be populated with valuse 1-9"
 
-    return verifyGrifResults
+    return verifyGridResults
+
+
+def verify_cheating_helper(verifyGridResultsIn: ResponseVerifyGrid):
+    verifyGridResultsAfterCheatingCheck = verifyGridResultsIn
+
+    # Get original grid
+    mocks = {"mock1": mock1, "mock2": mock2}
+    originalGrid = mocks.get(verifyGridResultsIn.gridId)
+
+    verifyGridResultsAfterCheatingCheck.errorCells = cheating_helper_iterator(
+        originalGrid, verifyGridResultsIn.grid
+    )
+
+    # Simulate wrong cell
+    # verifyGridResultsAfterCheatingCheck.errorCells.append(
+    #     wrongCell(x=0, y=0, cellErrorMessage="Cheating")
+    # )
+    # verifyGridResultsAfterCheatingCheck.errorCells.append(
+    #     wrongCell(x=3, y=4, cellErrorMessage="Cheating")
+    # )
+    # verifyGridResultsAfterCheatingCheck.errorsMessages.append(
+    #     "No cheating! You cannot change the starting grid values."
+    # )
+    return verifyGridResultsAfterCheatingCheck
+
+
+def cheating_helper_iterator(
+    original: List[BoardCell], fromUser: List[BoardCell]
+) -> List[wrongCell]:
+    wrong_cells = []
+    fromUserAsABoard = List[BoardCell]
+    fromUserAsABoard = convert_board(fromUser)
+    
+    # Compare cell by cell to verify same value for non changeble cells)
+    for original_cell, user_cell in zip(original, fromUserAsABoard):
+        if not original_cell.changeable:
+            if original_cell.value != user_cell.value:
+                # Overwrite back
+                user_cell.value = original_cell.value
+                wrong_cells.append(
+                    wrongCell(
+                        x=original_cell.x,
+                        y=original_cell.y,
+                        cellErrorMessage="Cheating"
+                    )
+                )
+    return wrong_cells
