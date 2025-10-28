@@ -32,15 +32,11 @@ def verify_grid(gridId, grid):
 
     # If post grid with try to overwright changeable=False base cells - throw Critical allert back
     verifyGridResults = verify_cheating_helper(verifyGridResults)
-
     
-    # Add duplicates after vertical lines check
-    verifyGridResults = verify_vertical_lines(verifyGridResults)
-
-    # TODO add here def verify_horisontal_lines function to return duplicates after horisontal lines check
-    # And add them to errorCells list
-    # error3 = wrongCell(x=0,y=*,cellErrorMessage="Horisontal row duplicate")
-    # verifyGridResults.errorCells.append(error3)
+    verifyGridResults = verify_vertical_duplicates(verifyGridResults)
+    
+    verifyGridResults = verify_horisontal_duplicates(verifyGridResults)
+    
     # verifyGridResults.errorsMessages = "Numbers should not be repeated in a horizontal row."
 
     # TODO add here def verify_regions function to return duplicates after regions check
@@ -100,7 +96,7 @@ def cheating_helper_iterator(
     return verifyCheatinglIn
 
 
-def verify_vertical_lines(verifyVerticalIn: ResponseVerifyGrid):
+def verify_vertical_duplicates(verifyVerticalIn: ResponseVerifyGrid):
     board = verifyVerticalIn.grid
     generalErrorMessageAdded = False
     for col in range(len(board)):
@@ -108,11 +104,12 @@ def verify_vertical_lines(verifyVerticalIn: ResponseVerifyGrid):
         for row in range(len(board[col])):
             val = board[row][col]
             if val == 0:
-                continue  # ignore empty cells
+                continue # ignore empty cells
             # if value seen before the duplicate found
             if val in seen:
                 if generalErrorMessageAdded != True:
                     verifyVerticalIn.errorsMessages.append("Numbers should not be repeated in a vertical row.")
+                    generalErrorMessageAdded = True
 
                 # append both current and the one already seen
                 verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorMessage="Vertical row duplicate"))
@@ -122,5 +119,32 @@ def verify_vertical_lines(verifyVerticalIn: ResponseVerifyGrid):
                     verifyVerticalIn.errorCells.append(wrongCell(x=col, y=seen[val], cellErrorMessage="Vertical row duplicate"))                    
             else:
                 seen[val] = row
+
+    return verifyVerticalIn
+
+
+def verify_horisontal_duplicates(verifyVerticalIn: ResponseVerifyGrid):
+    board = verifyVerticalIn.grid
+    generalErrorMessageAdded = False
+    for row in range(len(board)):
+        seen = {} #to store known values
+        for col in range(len(board[row])):
+            val = board[row][col]
+            if val == 0:
+                continue # ignore empty cells
+            # if value seen before the duplicate found
+            if val in seen:
+                if generalErrorMessageAdded != True:
+                    verifyVerticalIn.errorsMessages.append("Numbers should not be repeated in a horizontal row.")
+                    generalErrorMessageAdded = True
+
+                # append both current and the one already seen
+                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorMessage="Horisontal row duplicate"))
+                
+                # add previous occurrences (if not already added)
+                if not any(e.x == row and e.y == seen[val] for e in verifyVerticalIn.errorCells):
+                    verifyVerticalIn.errorCells.append(wrongCell(x=seen[val], y=row, cellErrorMessage="Horisontal row duplicate"))
+            else:
+                seen[val] = col
 
     return verifyVerticalIn

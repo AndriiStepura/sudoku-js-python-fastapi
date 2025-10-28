@@ -140,7 +140,7 @@ def test_verify_grid_response_horisontal_duplicate_error():
             [8, 0, 0, 0, 6, 0, 0, 0, 3],
             [4, 0, 0, 8, 5, 3, 0, 0, 1],
             [7, 0, 0, 0, 2, 0, 0, 0, 6],
-            [0, 6, 0, 0, 7, 0, 2, 8, 0],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
             [0, 0, 0, 4, 1, 9, 0, 0, 5],
             [0, 0, 0, 0, 8, 0, 0, 7, 9],
         ],
@@ -164,10 +164,10 @@ def test_verify_grid_response_horisontal_duplicate_error():
     # So response should back with both wrong cells data for UI
     assert len(verifyGrifResult.errorCells) == 2
     assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=4, y=0, cellErrorMessage="Horisontal row duplicate"
+        x=7, y=1, cellErrorMessage="Horisontal row duplicate"
     )
-    assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=5, y=2, cellErrorMessage="Horisontal row duplicate"
+    assert verifyGrifResult.errorCells[1] == wrongCell(
+        x=4, y=1, cellErrorMessage="Horisontal row duplicate"
     )
     assert (
         verifyGrifResult.errorsMessages[0]

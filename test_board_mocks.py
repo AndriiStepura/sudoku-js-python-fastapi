@@ -10,7 +10,7 @@ class BoardEncoder(JSONEncoder):
 
 
 # Test mock converter helper
-def test_default_BoardCell():
+def test_convert_board():
     expectedMockForJSON = [
         {
             "x": 0,
