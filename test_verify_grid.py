@@ -266,20 +266,22 @@ def test_verify_grid_response_for_vertical_and_horisontal_duplicates_errors():
         [0, 0, 0, 0, 8, 0, 0, 7, 9],
     ]
     # So response should back with both wrong cells data for UI
-    assert len(verifyGrifResult.errorCells) == 7
+    assert len(verifyGrifResult.errorCells) == 8
     assert verifyGrifResult.errorCells == [
         wrongCell(x=6, y=7, cellErrorsMessages=["Cheating"]),
         wrongCell(x=2, y=6, cellErrorsMessages=["Horisontal row duplicate", "Vertical row duplicate"]),
         wrongCell(x=2, y=2, cellErrorsMessages=["Vertical row duplicate"]),
         wrongCell(x=8, y=5, cellErrorsMessages=["Vertical row duplicate"]),
-        wrongCell(x=8, y=1, cellErrorsMessages=["Horisontal row duplicate", "Vertical row duplicate"]),
-        wrongCell(x=7, y=6, cellErrorsMessages=["Horisontal row duplicate"])
+        wrongCell(x=8, y=1, cellErrorsMessages=["Horisontal row duplicate", "Region block duplicate", "Vertical row duplicate"]),
+        wrongCell(x=0, y=1, cellErrorsMessages=["Horisontal row duplicate"]),
+        wrongCell(x=7, y=6, cellErrorsMessages=["Horisontal row duplicate"]),
+        wrongCell(x=7, y=2, cellErrorsMessages=["Region block duplicate"])
     ]
     assert (
         verifyGrifResult.errorsMessages == [
             "No cheating! You cannot change the starting grid values.",
             "Numbers should not be repeated in a vertical row.",
             "Numbers should not be repeated in a horizontal row.",
-            "Numbers should not be repeated in a region block"
+            "Numbers should not be repeated in a region block."
         ]        
     )
