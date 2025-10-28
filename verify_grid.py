@@ -161,10 +161,10 @@ def verify_region_duplicates(verifyRegionIn: ResponseVerifyGrid):
                             verifyRegionIn.errorsMessages.append("Numbers should not be repeated in a region block.")
                             generalErrorMessageAdded = True
 
-                        verifyRegionIn.errorCells.append(wrongCell(x=row, y=col, cellErrorsMessages=["Region block duplicate"]))
+                        verifyRegionIn.errorCells.append(wrongCell(x=col, y=row, cellErrorsMessages=["Region block duplicate"]))
                         prev = seen[val]
                         if not any(e.x == prev[0] and e.y == prev[1] for e in verifyRegionIn.errorCells):
-                            verifyRegionIn.errorCells.append(wrongCell(x=prev[0], y=prev[1], cellErrorsMessages=["Region block duplicate"]))
+                            verifyRegionIn.errorCells.append(wrongCell(x=prev[1], y=prev[0], cellErrorsMessages=["Region block duplicate"]))
                     else:
                         seen[val] = (row, col)
     return verifyRegionIn
