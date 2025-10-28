@@ -178,11 +178,11 @@ def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wron
 
         error = cell.cellErrorsMessages
         if isinstance(error, str):
-            erroerrorrerrors = [error]
+            error = [error]
 
         if key not in merged:
             merged[key] = wrongCell(x=cell.x, y=cell.y, cellErrorsMessages=list(set(error)))
         else:
-            merged[key].cellErrorsMessages = list(set(merged[key].cellErrorsMessages + error))
+            merged[key].cellErrorsMessages = sorted(list(set(merged[key].cellErrorsMessages + error)))
 
     return list(merged.values())

@@ -229,9 +229,9 @@ def test_verify_grid_response_for_vertical_and_horisontal_duplicates_errors():
         "mock1",
         [
             # Here we simulate change 0 to bad value 8 in x:2,y:6
-            # So expected receive dublication errors with 2:2 and 7:6
+            # So expected receive duplication errors with 2:2 and 7:6
             # and change 0 to good value 5 in x:4,y:4
-            # and change 8 to bad value 6 in x:7,y:6 which should be reverted without dublication errors
+            # and change 8 to bad value 6 in x:7,y:6 which should be reverted without duplication errors
             [5, 3, 0, 0, 7, 0, 0, 0, 0],
             [6, 0, 0, 1, 9, 5, 0, 0, 0],
             [0, 9, 8, 0, 0, 0, 0, 6, 0],
