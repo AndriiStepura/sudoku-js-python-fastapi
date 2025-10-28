@@ -76,28 +76,30 @@ def verify_cheating_helper(verifyGridResultsIn: ResponseVerifyGrid):
         originalGrid, verifyGridResultsAfterCheatingCheck
     )
     if len(verifyGridResultsAfterCheatingCheck.errorCells) > 0:
-        verifyGridResultsAfterCheatingCheck.errorsMessages.append("No cheating! You cannot change the starting grid values.")
-    
+        verifyGridResultsAfterCheatingCheck.errorsMessages.append(
+            "No cheating! You cannot change the starting grid values."
+        )
+
     return verifyGridResultsAfterCheatingCheck
 
 
 def cheating_helper_iterator(
     original: List[BoardCell], fromUser: ResponseVerifyGrid
 ) -> List[wrongCell]:
-        
+
     fromUserAsABoard = List[BoardCell]
     fromUserAsABoard = convert_board(fromUser.grid)
-    
+
     # Compare cell by cell to verify same value for non changeble cells)
     for original_cell, user_cell in zip(original, fromUserAsABoard):
         if not original_cell.changeable:
-            if original_cell.value != user_cell.value:                                
-                # Report 
+            if original_cell.value != user_cell.value:
+                # Report
                 fromUser.errorCells.append(
                     wrongCell(
                         x=original_cell.x,
                         y=original_cell.y,
-                        cellErrorMessage="Cheating"
+                        cellErrorMessage="Cheating",
                     )
                 )
                 # Overwrite value back
