@@ -17,7 +17,7 @@ def test_verify_grid_response_happy_path_one_change():
             [0, 0, 0, 0, 8, 0, 0, 7, 9],
         ],
     )
-    assert verifyGrifResult.gridId is "mock1"
+    assert verifyGrifResult.gridId == "mock1"
     assert verifyGrifResult.grid != []
     # And expecting that this value returned in response
     assert (verifyGrifResult.grid[4])[4] == 5
@@ -55,7 +55,7 @@ def test_verify_grid_cheating_error():
             [0, 0, 0, 0, 8, 0, 0, 7, 9],
         ],
     )
-    assert verifyGrifResult.gridId is "mock1"
+    assert verifyGrifResult.gridId == "mock1"
     # And expecting that these values are returned in response
     assert verifyGrifResult.grid == [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -98,7 +98,7 @@ def test_verify_grid_response_vertical_duplicate_error():
             [0, 0, 0, 0, 8, 0, 0, 7, 9],
         ],
     )
-    assert verifyGrifResult.gridId is "mock1"
+    assert verifyGrifResult.gridId == "mock1"
     assert verifyGrifResult.grid != []
     # And expecting that both these values are returned in response
     assert (verifyGrifResult.grid[4])[4] == 5
@@ -145,7 +145,7 @@ def test_verify_grid_response_horisontal_duplicate_error():
             [0, 0, 0, 0, 8, 0, 0, 7, 9],
         ],
     )
-    assert verifyGrifResult.gridId is "mock1"
+    assert verifyGrifResult.gridId == "mock1"
     assert verifyGrifResult.grid != []
     # And expecting that both these values are returned in response
     assert (verifyGrifResult.grid[4])[4] == 5
@@ -192,7 +192,7 @@ def test_verify_grid_response_area_duplicate_error():
             [0, 0, 0, 0, 8, 0, 0, 7, 9],
         ],
     )
-    assert verifyGrifResult.gridId is "mock1"
+    assert verifyGrifResult.gridId == "mock1"
     assert verifyGrifResult.grid != []
     # And expecting that both these values are returned in response
     assert (verifyGrifResult.grid[4])[4] == 5
