@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Dict, Any
 from board import BoardCell
 from board_mocks import mock1, mock2, convert_board
 
@@ -7,7 +7,7 @@ from board_mocks import mock1, mock2, convert_board
 class wrongCell(BaseModel):
     x: int
     y: int
-    cellErrorMessage: str = None
+    cellErrorsMessages: List[str]
 
 
 class RequestVerifyGrid(BaseModel):
@@ -41,15 +41,17 @@ def verify_grid(gridId, grid):
 
     # TODO add here def verify_regions function to return duplicates after regions check
     # And add them to errorCells list
-    # error4 = wrongCell(x=n*3,y=n*3,cellErrorMessage="Regional block duplicate")
+    # error4 = wrongCell(x=n*3,y=n*3,cellErrorsMessages="Regional block duplicate")
     # verifyGridResults.errorCells.append(error4)
     # verifyGridResults.errorsMessages = "Numbers should not be repeated in region block."
 
     # TODO add here def verify_empty_cells function to return info about not populated cells
     # And add them to errorCells list
-    # error4 = wrongCell(x=any,y=any,cellErrorMessage="Missed value")
+    # error4 = wrongCell(x=any,y=any,cellErrorsMessages="Missed value")
     # verifyGridResults.errorCells.append(error4)
     # verifyGridResults.errorsMessages = "To finish sudoky all cells should be populated with valuse 1-9"
+
+    verifyGridResults.errorCells = merge_error_cells_records(verifyGridResults.errorCells)
 
     return verifyGridResults
 
@@ -88,7 +90,7 @@ def cheating_helper_iterator(
                     wrongCell(
                         x=original_cell.x,
                         y=original_cell.y,
-                        cellErrorMessage="Cheating",
+                        cellErrorsMessages=["Cheating"],
                     )
                 )
                 # Overwrite value back
@@ -112,11 +114,11 @@ def verify_vertical_duplicates(verifyVerticalIn: ResponseVerifyGrid):
                     generalErrorMessageAdded = True
 
                 # append both current and the one already seen
-                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorMessage="Vertical row duplicate"))
+                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorsMessages=["Vertical row duplicate"]))
 
                 # add previous occurrences (if not already added)
                 if not any(e.x == seen[val] and e.y == col for e in verifyVerticalIn.errorCells):
-                    verifyVerticalIn.errorCells.append(wrongCell(x=col, y=seen[val], cellErrorMessage="Vertical row duplicate"))                    
+                    verifyVerticalIn.errorCells.append(wrongCell(x=col, y=seen[val], cellErrorsMessages=["Vertical row duplicate"]))
             else:
                 seen[val] = row
 
@@ -139,12 +141,30 @@ def verify_horisontal_duplicates(verifyVerticalIn: ResponseVerifyGrid):
                     generalErrorMessageAdded = True
 
                 # append both current and the one already seen
-                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorMessage="Horisontal row duplicate"))
+                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorsMessages=["Horisontal row duplicate"]))
                 
                 # add previous occurrences (if not already added)
                 if not any(e.x == row and e.y == seen[val] for e in verifyVerticalIn.errorCells):
-                    verifyVerticalIn.errorCells.append(wrongCell(x=seen[val], y=row, cellErrorMessage="Horisontal row duplicate"))
+                    verifyVerticalIn.errorCells.append(wrongCell(x=seen[val], y=row, cellErrorsMessages=["Horisontal row duplicate"]))
             else:
                 seen[val] = col
 
     return verifyVerticalIn
+
+
+# Merge error messages for same cell, it should simplify UI mapping
+def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wrongCell]:   
+    merged = {}
+    for cell in wrongCellsList:
+        key = (cell.x, cell.y)
+
+        error = cell.cellErrorsMessages
+        if isinstance(error, str):
+            erroerrorrerrors = [error]
+
+        if key not in merged:
+            merged[key] = wrongCell(x=cell.x, y=cell.y, cellErrorsMessages=list(set(error)))
+        else:
+            merged[key].cellErrorsMessages = list(set(merged[key].cellErrorsMessages + error))
+
+    return list(merged.values())

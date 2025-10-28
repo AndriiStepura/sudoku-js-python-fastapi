@@ -70,10 +70,10 @@ def test_verify_grid_cheating_error():
     ]
     assert len(verifyGrifResult.errorCells) == 2
     assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=0, y=0, cellErrorMessage="Cheating"
+        x=0, y=0, cellErrorsMessages=["Cheating"]
     )
     assert verifyGrifResult.errorCells[1] == wrongCell(
-        x=4, y=3, cellErrorMessage="Cheating"
+        x=4, y=3, cellErrorsMessages=["Cheating"]
     )
     assert (
         verifyGrifResult.errorsMessages[0]
@@ -117,10 +117,10 @@ def test_verify_grid_response_vertical_duplicate_error():
     # So response should back with both wrong cells data for UI
     assert len(verifyGrifResult.errorCells) == 2
     assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=7, y=8, cellErrorMessage="Vertical row duplicate"
+        x=7, y=8, cellErrorsMessages=["Vertical row duplicate"]
     )
     assert verifyGrifResult.errorCells[1] == wrongCell(
-        x=7, y=1, cellErrorMessage="Vertical row duplicate"
+        x=7, y=1, cellErrorsMessages=["Vertical row duplicate"]
     )
     assert (
         verifyGrifResult.errorsMessages[0]
@@ -164,10 +164,10 @@ def test_verify_grid_response_horisontal_duplicate_error():
     # So response should back with both wrong cells data for UI
     assert len(verifyGrifResult.errorCells) == 2
     assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=7, y=1, cellErrorMessage="Horisontal row duplicate"
+        x=7, y=1, cellErrorsMessages=["Horisontal row duplicate"]
     )
     assert verifyGrifResult.errorCells[1] == wrongCell(
-        x=4, y=1, cellErrorMessage="Horisontal row duplicate"
+        x=4, y=1, cellErrorsMessages=["Horisontal row duplicate"]
     )
     assert (
         verifyGrifResult.errorsMessages[0]
@@ -211,10 +211,10 @@ def test_verify_grid_response_area_duplicate_error():
     # So response should back with both wrong cells data for UI
     assert len(verifyGrifResult.errorCells) == 2
     assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=1, y=6, cellErrorMessage="Region block duplicate"
+        x=1, y=6, cellErrorsMessages=["Region block duplicate"]
     )
     assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=1, y=7, cellErrorMessage="Region block duplicate"
+        x=1, y=7, cellErrorsMessages=["Region block duplicate"]
     )
     assert (
         verifyGrifResult.errorsMessages
@@ -260,13 +260,12 @@ def test_verify_grid_response_for_vertical_and_horisontal_duplicates_errors():
         [0, 0, 0, 0, 8, 0, 0, 7, 9],
     ]
     # So response should back with both wrong cells data for UI
-    assert len(verifyGrifResult.errorCells) == 5
+    assert len(verifyGrifResult.errorCells) == 4
     assert verifyGrifResult.errorCells == [
-        wrongCell(x=6, y=7, cellErrorMessage="Cheating"),
-        wrongCell(x=2, y=6, cellErrorMessage="Vertical row duplicate"),
-        wrongCell(x=2, y=2, cellErrorMessage="Vertical row duplicate"),
-        wrongCell(x=7, y=6, cellErrorMessage="Horisontal row duplicate"),
-        wrongCell(x=2, y=6, cellErrorMessage="Horisontal row duplicate")
+        wrongCell(x=6, y=7, cellErrorsMessages=["Cheating"]),
+        wrongCell(x=2, y=6, cellErrorsMessages=["Horisontal row duplicate", "Vertical row duplicate"]),
+        wrongCell(x=2, y=2, cellErrorsMessages=["Vertical row duplicate"]),
+        wrongCell(x=7, y=6, cellErrorsMessages=["Horisontal row duplicate"])
     ]
     assert (
         verifyGrifResult.errorsMessages == [
