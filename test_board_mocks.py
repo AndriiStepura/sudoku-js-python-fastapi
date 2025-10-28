@@ -1,6 +1,6 @@
 import json
 from json import JSONEncoder
-from board_mocks import convert_board, make_boardCell
+from board import convert_board
 
 
 # subclass JSONEncoder to make class BoardCell serializable

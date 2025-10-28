@@ -1,16 +1,4 @@
-from board import make_boardCell
-
-
-# Helper to create board from array of ints
-def convert_board(board):
-    board_objects = []
-    for i, row in enumerate(board):
-        for j, val in enumerate(row):
-            if val == 0:
-                board_objects.append(make_boardCell(i, j, True))
-            else:
-                board_objects.append(make_boardCell(i, j, False, val))
-    return board_objects
+from board import convert_board
 
 
 # mock1
