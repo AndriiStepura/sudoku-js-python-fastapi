@@ -33,16 +33,9 @@ def verify_grid(gridId, grid):
     # If post grid with try to overwright changeable=False base cells - throw Critical allert back
     verifyGridResults = verify_cheating_helper(verifyGridResults)
 
-    # if error returned propagate it through errorsMessages response property
-    originalNonChangeableGridCells = grid
-    # and TODO return mapped with original changeable=False in case if front-end miss this protection to avoid cheating
-    verifyGridResults.grid = originalNonChangeableGridCells
-
-    # TODO add here def verify_vertical_lines function to return duplicates after vertical lines check
-    # And add them to errorCells list
-    # error2 = wrongCell(x=*,y=0,cellErrorMessage="Vertical row duplicate")
-    # verifyGridResults.errorCells.append(error2)
-    # verifyGridResults.errorsMessages = "Numbers should not be repeated in a vertical row."
+    
+    # Add duplicates after vertical lines check
+    verifyGridResults = verify_vertical_lines(verifyGridResults)
 
     # TODO add here def verify_horisontal_lines function to return duplicates after horisontal lines check
     # And add them to errorCells list
@@ -84,18 +77,18 @@ def verify_cheating_helper(verifyGridResultsIn: ResponseVerifyGrid):
 
 
 def cheating_helper_iterator(
-    original: List[BoardCell], fromUser: ResponseVerifyGrid
+    original: List[BoardCell], verifyCheatinglIn: ResponseVerifyGrid
 ) -> List[wrongCell]:
 
     fromUserAsABoard = List[BoardCell]
-    fromUserAsABoard = convert_board(fromUser.grid)
+    fromUserAsABoard = convert_board(verifyCheatinglIn.grid)
 
     # Compare cell by cell to verify same value for non changeble cells)
     for original_cell, user_cell in zip(original, fromUserAsABoard):
         if not original_cell.changeable:
             if original_cell.value != user_cell.value:
                 # Report
-                fromUser.errorCells.append(
+                verifyCheatinglIn.errorCells.append(
                     wrongCell(
                         x=original_cell.x,
                         y=original_cell.y,
@@ -103,6 +96,31 @@ def cheating_helper_iterator(
                     )
                 )
                 # Overwrite value back
-                (fromUser.grid[original_cell.x])[original_cell.y] = original_cell.value
+                (verifyCheatinglIn.grid[original_cell.x])[original_cell.y] = original_cell.value
+    return verifyCheatinglIn
 
-    return fromUser
+
+def verify_vertical_lines(verifyVerticalIn: ResponseVerifyGrid):
+    board = verifyVerticalIn.grid
+    generalErrorMessageAdded = False
+    for col in range(len(board)):
+        seen = {} #to store known values
+        for row in range(len(board[col])):
+            val = board[row][col]
+            if val == 0:
+                continue  # ignore empty cells
+            # if value seen before the duplicate found
+            if val in seen:
+                if generalErrorMessageAdded != True:
+                    verifyVerticalIn.errorsMessages.append("Numbers should not be repeated in a vertical row.")
+
+                # append both current and the one already seen
+                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorMessage="Vertical row duplicate"))
+
+                # add previous occurrences (if not already added)
+                if not any(e.x == seen[val] and e.y == col for e in verifyVerticalIn.errorCells):
+                    verifyVerticalIn.errorCells.append(wrongCell(x=col, y=seen[val], cellErrorMessage="Vertical row duplicate"))                    
+            else:
+                seen[val] = row
+
+    return verifyVerticalIn

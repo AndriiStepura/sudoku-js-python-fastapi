@@ -85,11 +85,11 @@ def test_verify_grid_response_vertical_duplicate_error():
     verifyGrifResult = verify_grid(
         "mock1",
         [
-            # Here we simulate change 0 to bad value 8 in x:5,y:2
+            # Here we simulate change 0 to bad value 7 in x:7,y:1
             # and change 0 to good value 5 in x:4,y:4
             [5, 3, 0, 0, 7, 0, 0, 0, 0],
-            [6, 0, 0, 1, 9, 5, 0, 0, 0],
-            [0, 9, 8, 0, 0, 8, 0, 6, 0],
+            [6, 0, 0, 1, 9, 5, 0, 7, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
             [8, 0, 0, 0, 6, 0, 0, 0, 3],
             [4, 0, 0, 8, 5, 3, 0, 0, 1],
             [7, 0, 0, 0, 2, 0, 0, 0, 6],
@@ -102,11 +102,11 @@ def test_verify_grid_response_vertical_duplicate_error():
     assert verifyGrifResult.grid != []
     # And expecting that both these values are returned in response
     assert (verifyGrifResult.grid[4])[4] == 5
-    assert (verifyGrifResult.grid[2])[5] == 8
+    assert (verifyGrifResult.grid[1])[7] == 7
     assert verifyGrifResult.grid == [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
-        [6, 0, 0, 1, 9, 5, 0, 0, 0],
-        [0, 9, 8, 0, 0, 8, 0, 6, 0],
+        [6, 0, 0, 1, 9, 5, 0, 7, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
         [8, 0, 0, 0, 6, 0, 0, 0, 3],
         [4, 0, 0, 8, 5, 3, 0, 0, 1],
         [7, 0, 0, 0, 2, 0, 0, 0, 6],
@@ -117,10 +117,10 @@ def test_verify_grid_response_vertical_duplicate_error():
     # So response should back with both wrong cells data for UI
     assert len(verifyGrifResult.errorCells) == 2
     assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=2, y=2, cellErrorMessage="Vertical row duplicate"
+        x=7, y=8, cellErrorMessage="Vertical row duplicate"
     )
-    assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=5, y=2, cellErrorMessage="Vertical row duplicate"
+    assert verifyGrifResult.errorCells[1] == wrongCell(
+        x=7, y=1, cellErrorMessage="Vertical row duplicate"
     )
     assert (
         verifyGrifResult.errorsMessages[0]
