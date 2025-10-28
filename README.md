@@ -47,3 +47,17 @@ or navigate to Run and Debug (Ctrl+Shift+D and F5 to start)
 
 # Formatting
 https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
+
+
+# Few general important notes about implementation
+1. If you have requirements that sudoku will be always 9*9 and with single possible solution it make more sense just to store starting grid and proper solution and just compare user attempt with proper one to highlight diviations.
+But in my case requirements unclear, also some future versions may allow bigger sudoku with 16×16 area or easier level which may allow multiply solutions, that's why I implemented validation (vertical, horisontal and region) based on user imput
+
+2. Gameboard im my implementation is represented by array of arrays and two notes to keep in mind for proper usage as it's abstract and may be an umbigues
+First of all when you call this board, for example RequestVerifyGrid.grid you need to use reversed y after x so use (RequestVerifyGrid.grid[y])[x]
+And numeration from top right corner, so x:y coordinates mapped in array:
+[
+    [0:0 , 0:1, 0:2],
+    [1:0 , 1:1, 1:2],
+    [2:0 , 2:1, 2:2]
+]
