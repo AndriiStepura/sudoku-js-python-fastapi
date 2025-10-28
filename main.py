@@ -21,8 +21,8 @@ def get_newgrid(gridId: str = "mock1"):
     responseErrors = []
 
     mocks = {"mock1": mock1, "mock2": mock2}
-
     gridInResponse = mocks.get(gridId)
+    
     if not gridInResponse:
         responseErrors.append(f"gridId {gridId} NOT FOUND")
 

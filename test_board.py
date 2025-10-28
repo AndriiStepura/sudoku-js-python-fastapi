@@ -1,4 +1,3 @@
-from board import BoardCell
 from board import make_boardCell
 
 

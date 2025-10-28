@@ -33,7 +33,7 @@ def test_verify_grid_response_happy_path_one_change():
         [0, 0, 0, 0, 8, 0, 0, 7, 9],
     ]
     assert verifyGrifResult.errorCells == []
-    assert verifyGrifResult.errorsMessage == None
+    assert verifyGrifResult.errorsMessages == []
 
 
 def test_verify_grid_cheating_error():
@@ -76,7 +76,7 @@ def test_verify_grid_cheating_error():
         x=3, y=4, cellErrorMessage="Cheating"
     )
     assert (
-        verifyGrifResult.errorsMessage
+        verifyGrifResult.errorsMessages[0]
         == "No cheating! You cannot change the starting grid values."
     )
 
@@ -123,7 +123,7 @@ def test_verify_grid_response_vertical_duplicate_error():
         x=5, y=2, cellErrorMessage="Vertical row duplicate"
     )
     assert (
-        verifyGrifResult.errorsMessage
+        verifyGrifResult.errorsMessages[0]
         == "Numbers should not be repeated in a vertical row."
     )
 
@@ -170,7 +170,7 @@ def test_verify_grid_response_horisontal_duplicate_error():
         x=5, y=2, cellErrorMessage="Horisontal row duplicate"
     )
     assert (
-        verifyGrifResult.errorsMessage
+        verifyGrifResult.errorsMessages[0]
         == "Numbers should not be repeated in a horizontal row."
     )
 
@@ -217,6 +217,6 @@ def test_verify_grid_response_area_duplicate_error():
         x=1, y=7, cellErrorMessage="Region block duplicate"
     )
     assert (
-        verifyGrifResult.errorsMessage
+        verifyGrifResult.errorsMessages
         == "Numbers should not be repeated in region block."
     )
