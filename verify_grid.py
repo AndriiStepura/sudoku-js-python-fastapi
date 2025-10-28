@@ -36,14 +36,8 @@ def verify_grid(gridId, grid):
     verifyGridResults = verify_vertical_duplicates(verifyGridResults)
     
     verifyGridResults = verify_horisontal_duplicates(verifyGridResults)
-    
-    # verifyGridResults.errorsMessages = "Numbers should not be repeated in a horizontal row."
 
-    # TODO add here def verify_regions function to return duplicates after regions check
-    # And add them to errorCells list
-    # error4 = wrongCell(x=n*3,y=n*3,cellErrorsMessages="Regional block duplicate")
-    # verifyGridResults.errorCells.append(error4)
-    # verifyGridResults.errorsMessages = "Numbers should not be repeated in region block."
+    verifyGridResults = verify_region_duplicates(verifyGridResults)
 
     # TODO add here def verify_empty_cells function to return info about not populated cells
     # And add them to errorCells list
@@ -148,8 +142,32 @@ def verify_horisontal_duplicates(verifyVerticalIn: ResponseVerifyGrid):
                     verifyVerticalIn.errorCells.append(wrongCell(x=seen[val], y=row, cellErrorsMessages=["Horisontal row duplicate"]))
             else:
                 seen[val] = col
-
     return verifyVerticalIn
+
+def verify_region_duplicates(verifyRegionIn: ResponseVerifyGrid):
+    board = verifyRegionIn.grid
+    generalErrorMessageAdded = False
+    for box_row in range(0, len(board), 3):
+        for box_col in range(0, len(board[box_row]), 3):
+            seen = {}
+            for i in range(3):
+                for j in range(3):
+                    row, col = box_row + i, box_col + j
+                    val = board[row][col]
+                    if val == 0:
+                        continue
+                    if val in seen:
+                        if generalErrorMessageAdded != True:
+                            verifyRegionIn.errorsMessages.append("Numbers should not be repeated in a region block.")
+                            generalErrorMessageAdded = True
+
+                        verifyRegionIn.errorCells.append(wrongCell(x=row, y=col, cellErrorsMessages=["Region block duplicate"]))
+                        prev = seen[val]
+                        if not any(e.x == prev[0] and e.y == prev[1] for e in verifyRegionIn.errorCells):
+                            verifyRegionIn.errorCells.append(wrongCell(x=prev[0], y=prev[1], cellErrorsMessages=["Region block duplicate"]))
+                    else:
+                        seen[val] = (row, col)
+    return verifyRegionIn
 
 
 # Merge error messages for same cell, it should simplify UI mapping

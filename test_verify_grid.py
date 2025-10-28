@@ -179,46 +179,48 @@ def test_verify_grid_response_area_duplicate_error():
     verifyGrifResult = verify_grid(
         "mock1",
         [
-            # Here we simulate change 0 to bad value 6 in x:1,y:7
+            # Here we simulate change 0 to bad value 2 in x:7,y:7
             # and change 0 to good value 5 in x:4,y:4
+            # and change 0s to bad values 4 in x:1,y:6 and x:2,y:8
             [5, 3, 0, 0, 7, 0, 0, 0, 0],
-            [6, 0, 0, 1, 9, 5, 0, 0, 0],
-            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [6, 0, 0, 1, 9, 5, 4, 0, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 4],
             [8, 0, 0, 0, 6, 0, 0, 0, 3],
             [4, 0, 0, 8, 5, 3, 0, 0, 1],
             [7, 0, 0, 0, 2, 0, 0, 0, 6],
             [0, 6, 0, 0, 0, 0, 2, 8, 0],
-            [0, 6, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 4, 1, 9, 0, 2, 5],
             [0, 0, 0, 0, 8, 0, 0, 7, 9],
         ],
     )
     assert verifyGrifResult.gridId == "mock1"
     assert verifyGrifResult.grid != []
-    # And expecting that both these values are returned in response
+    # And expecting that all these values are returned in response
     assert (verifyGrifResult.grid[4])[4] == 5
-    assert (verifyGrifResult.grid[7])[1] == 6
+    assert (verifyGrifResult.grid[7])[7] == 2
+    assert (verifyGrifResult.grid[1])[6] == 4
+    assert (verifyGrifResult.grid[2])[8] == 4
     assert verifyGrifResult.grid == [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
-        [6, 0, 0, 1, 9, 5, 0, 9, 0],
-        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [6, 0, 0, 1, 9, 5, 4, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 4],
         [8, 0, 0, 0, 6, 0, 0, 0, 3],
         [4, 0, 0, 8, 5, 3, 0, 0, 1],
         [7, 0, 0, 0, 2, 0, 0, 0, 6],
         [0, 6, 0, 0, 0, 0, 2, 8, 0],
-        [0, 6, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 4, 1, 9, 0, 2, 5],
         [0, 0, 0, 0, 8, 0, 0, 7, 9],
     ]
     # So response should back with both wrong cells data for UI
-    assert len(verifyGrifResult.errorCells) == 2
-    assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=1, y=6, cellErrorsMessages=["Region block duplicate"]
-    )
-    assert verifyGrifResult.errorCells[0] == wrongCell(
-        x=1, y=7, cellErrorsMessages=["Region block duplicate"]
-    )
-    assert (
-        verifyGrifResult.errorsMessages
-        == "Numbers should not be repeated in region block."
+    assert len(verifyGrifResult.errorCells) == 4
+    assert verifyGrifResult.errorCells == [
+        wrongCell(x=2, y=8, cellErrorsMessages=["Region block duplicate"]),
+        wrongCell(x=1, y=6, cellErrorsMessages=["Region block duplicate"]),
+        wrongCell(x=7, y=7, cellErrorsMessages=["Region block duplicate"]),
+        wrongCell(x=6, y=6, cellErrorsMessages=["Region block duplicate"])
+    ]
+
+    assert (verifyGrifResult.errorsMessages == ["Numbers should not be repeated in a region block."]
     )
 
 
