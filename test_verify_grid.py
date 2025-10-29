@@ -1,5 +1,36 @@
 from verify_grid import verify_grid, wrongCell
 
+def test_verify_grid_response_happy_path_resolved_mock1():
+    verifyGrifResult = verify_grid(
+        "mock1",
+        [
+            [5, 3, 4, 6, 7, 8, 9, 1, 2],
+            [6, 7, 2, 1, 9, 5, 3, 4, 8],
+            [1, 9, 8, 3, 4, 2, 5, 6, 7],
+            [8, 5, 9, 7, 6, 1, 4, 2, 3],
+            [4, 2, 6, 8, 5, 3, 7, 9, 1],
+            [7, 1, 3, 9, 2, 4, 8, 5, 6],
+            [9, 6, 1, 5, 3, 7, 2, 8, 4],
+            [2, 8, 7, 4, 1, 9, 6, 3, 5],
+            [3, 4, 5, 2, 8, 6, 1, 7, 9],
+        ],
+    )
+    assert verifyGrifResult.gridId == "mock1"
+    assert verifyGrifResult.grid != []
+    # And expecting that this value returned in response
+    assert verifyGrifResult.grid == [
+        [5, 3, 4, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
+    ]
+    assert verifyGrifResult.errorCells == []
+    assert verifyGrifResult.errorsMessages == []
 
 def test_verify_grid_response_happy_path_one_change():
     verifyGrifResult = verify_grid(
@@ -33,8 +64,80 @@ def test_verify_grid_response_happy_path_one_change():
         [0, 0, 0, 0, 8, 0, 0, 7, 9],
     ]
     assert verifyGrifResult.errorCells == []
-    assert verifyGrifResult.errorsMessages == []
+    assert verifyGrifResult.errorsMessages == [
+        "To finish sudoky all cells should be populated with valuse 1-9."
+        ]
 
+def test_verify_grid_response_happy_path_not_finished_game_one_change():
+    verifyGrifResult = verify_grid(
+        "mock1",
+        [
+            # Here we simulate change 0 to good value 5 in x:4,y:4
+            [5, 3, 0, 0, 7, 0, 0, 0, 0],
+            [6, 0, 0, 1, 9, 5, 0, 0, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [8, 0, 0, 0, 6, 0, 0, 0, 3],
+            [4, 0, 0, 8, 5, 3, 0, 0, 1],
+            [7, 0, 0, 0, 2, 0, 0, 0, 6],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
+            [0, 0, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 0, 8, 0, 0, 7, 9],
+        ],
+    )
+    assert verifyGrifResult.gridId == "mock1"
+    assert verifyGrifResult.grid != []
+    # And expecting that this value returned in response
+    assert (verifyGrifResult.grid[4])[4] == 5
+    assert verifyGrifResult.grid == [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 5, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    ]
+    assert verifyGrifResult.errorCells == []
+    assert verifyGrifResult.errorsMessages == [
+        "To finish sudoky all cells should be populated with valuse 1-9."
+        ]
+
+def test_verify_grid_response_happy_path_not_finished_game_five_changes():
+    verifyGrifResult = verify_grid(
+        "mock1",
+        [
+            # Here we simulate change 0 to good value 5 in x:4,y:4
+            [5, 3, 0, 0, 7, 0, 0, 0, 4],
+            [6, 0, 0, 1, 9, 5, 0, 3, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [8, 0, 0, 7, 6, 0, 0, 0, 3],
+            [4, 0, 0, 8, 5, 3, 0, 0, 1],
+            [7, 0, 0, 0, 2, 0, 0, 0, 6],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
+            [0, 2, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 0, 8, 0, 0, 7, 9],
+        ],
+    )
+    assert verifyGrifResult.gridId == "mock1"
+    assert verifyGrifResult.grid != []
+    # And expecting that these values are returned in response    
+    assert verifyGrifResult.grid == [
+            [5, 3, 0, 0, 7, 0, 0, 0, 4],
+            [6, 0, 0, 1, 9, 5, 0, 3, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [8, 0, 0, 7, 6, 0, 0, 0, 3],
+            [4, 0, 0, 8, 5, 3, 0, 0, 1],
+            [7, 0, 0, 0, 2, 0, 0, 0, 6],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
+            [0, 2, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    ]
+    assert verifyGrifResult.errorCells == []
+    assert verifyGrifResult.errorsMessages == [
+        "To finish sudoky all cells should be populated with valuse 1-9."
+        ]
 
 def test_verify_grid_cheating_error():
     verifyGrifResult = verify_grid(
@@ -223,7 +326,10 @@ def test_verify_grid_response_region_duplicate_error():
         wrongCell(x=5, y=8, cellErrorsMessages=["Region block duplicate"])
     ]
 
-    assert (verifyGrifResult.errorsMessages == ["Numbers should not be repeated in a region block."]
+    assert (verifyGrifResult.errorsMessages == [
+        "Numbers should not be repeated in a region block.",
+        "To finish sudoky all cells should be populated with valuse 1-9."
+        ]
     )
 
 
@@ -318,6 +424,7 @@ def test_verify_grid_response_for_vertical_and_horisontal_duplicates_errors():
             "No cheating! You cannot change the starting grid values.",
             "Numbers should not be repeated in a vertical row.",
             "Numbers should not be repeated in a horizontal row.",
-            "Numbers should not be repeated in a region block."
+            "Numbers should not be repeated in a region block.",
+            "To finish sudoky all cells should be populated with valuse 1-9."
         ]        
     )
