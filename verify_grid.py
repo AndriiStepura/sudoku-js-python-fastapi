@@ -32,16 +32,18 @@ def verify_grid(gridId, grid):
 
     # If post grid with try to overwright changeable=False base cells - throw Critical allert back
     verifyGridResults = verify_cheating_helper(verifyGridResults)
-    
+
     verifyGridResults = verify_vertical_duplicates(verifyGridResults)
-    
+
     verifyGridResults = verify_horisontal_duplicates(verifyGridResults)
 
     verifyGridResults = verify_region_duplicates(verifyGridResults)
 
     verifyGridResults = verify_empty_cells(verifyGridResults)
 
-    verifyGridResults.errorCells = merge_error_cells_records(verifyGridResults.errorCells)
+    verifyGridResults.errorCells = merge_error_cells_records(
+        verifyGridResults.errorCells
+    )
 
     return verifyGridResults
 
@@ -84,7 +86,9 @@ def cheating_helper_iterator(
                     )
                 )
                 # Overwrite value back
-                (verifyCheatinglIn.grid[original_cell.x])[original_cell.y] = original_cell.value
+                (verifyCheatinglIn.grid[original_cell.x])[
+                    original_cell.y
+                ] = original_cell.value
     return verifyCheatinglIn
 
 
@@ -92,23 +96,37 @@ def verify_vertical_duplicates(verifyVerticalIn: ResponseVerifyGrid):
     board = verifyVerticalIn.grid
     generalErrorMessageAdded = False
     for col in range(len(board)):
-        seen = {} #to store known values
+        seen = {}  # to store known values
         for row in range(len(board[col])):
             val = board[row][col]
             if val == 0:
-                continue # ignore empty cells
+                continue  # ignore empty cells
             # if value seen before the duplicate found
             if val in seen:
                 if generalErrorMessageAdded != True:
-                    verifyVerticalIn.errorsMessages.append("Numbers should not be repeated in a vertical row.")
+                    verifyVerticalIn.errorsMessages.append(
+                        "Numbers should not be repeated in a vertical row."
+                    )
                     generalErrorMessageAdded = True
 
                 # append both current and the one already seen
-                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorsMessages=["Vertical row duplicate"]))
+                verifyVerticalIn.errorCells.append(
+                    wrongCell(
+                        x=col, y=row, cellErrorsMessages=["Vertical row duplicate"]
+                    )
+                )
 
                 # add previous occurrences (if not already added)
-                if not any(e.x == seen[val] and e.y == col for e in verifyVerticalIn.errorCells):
-                    verifyVerticalIn.errorCells.append(wrongCell(x=col, y=seen[val], cellErrorsMessages=["Vertical row duplicate"]))
+                if not any(
+                    e.x == seen[val] and e.y == col for e in verifyVerticalIn.errorCells
+                ):
+                    verifyVerticalIn.errorCells.append(
+                        wrongCell(
+                            x=col,
+                            y=seen[val],
+                            cellErrorsMessages=["Vertical row duplicate"],
+                        )
+                    )
             else:
                 seen[val] = row
 
@@ -119,26 +137,41 @@ def verify_horisontal_duplicates(verifyVerticalIn: ResponseVerifyGrid):
     board = verifyVerticalIn.grid
     generalErrorMessageAdded = False
     for row in range(len(board)):
-        seen = {} #to store known values
+        seen = {}  # to store known values
         for col in range(len(board[row])):
             val = board[row][col]
             if val == 0:
-                continue # ignore empty cells
+                continue  # ignore empty cells
             # if value seen before the duplicate found
             if val in seen:
                 if generalErrorMessageAdded != True:
-                    verifyVerticalIn.errorsMessages.append("Numbers should not be repeated in a horizontal row.")
+                    verifyVerticalIn.errorsMessages.append(
+                        "Numbers should not be repeated in a horizontal row."
+                    )
                     generalErrorMessageAdded = True
 
                 # append both current and the one already seen
-                verifyVerticalIn.errorCells.append(wrongCell(x=col, y=row, cellErrorsMessages=["Horisontal row duplicate"]))
-                
+                verifyVerticalIn.errorCells.append(
+                    wrongCell(
+                        x=col, y=row, cellErrorsMessages=["Horisontal row duplicate"]
+                    )
+                )
+
                 # add previous occurrences (if not already added)
-                if not any(e.x == row and e.y == seen[val] for e in verifyVerticalIn.errorCells):
-                    verifyVerticalIn.errorCells.append(wrongCell(x=seen[val], y=row, cellErrorsMessages=["Horisontal row duplicate"]))
+                if not any(
+                    e.x == row and e.y == seen[val] for e in verifyVerticalIn.errorCells
+                ):
+                    verifyVerticalIn.errorCells.append(
+                        wrongCell(
+                            x=seen[val],
+                            y=row,
+                            cellErrorsMessages=["Horisontal row duplicate"],
+                        )
+                    )
             else:
                 seen[val] = col
     return verifyVerticalIn
+
 
 def verify_region_duplicates(verifyRegionIn: ResponseVerifyGrid):
     board = verifyRegionIn.grid
@@ -154,20 +187,37 @@ def verify_region_duplicates(verifyRegionIn: ResponseVerifyGrid):
                         continue
                     if val in seen:
                         if generalErrorMessageAdded != True:
-                            verifyRegionIn.errorsMessages.append("Numbers should not be repeated in a region block.")
+                            verifyRegionIn.errorsMessages.append(
+                                "Numbers should not be repeated in a region block."
+                            )
                             generalErrorMessageAdded = True
 
-                        verifyRegionIn.errorCells.append(wrongCell(x=col, y=row, cellErrorsMessages=["Region block duplicate"]))
+                        verifyRegionIn.errorCells.append(
+                            wrongCell(
+                                x=col,
+                                y=row,
+                                cellErrorsMessages=["Region block duplicate"],
+                            )
+                        )
                         prev = seen[val]
-                        if not any(e.x == prev[0] and e.y == prev[1] for e in verifyRegionIn.errorCells):
-                            verifyRegionIn.errorCells.append(wrongCell(x=prev[1], y=prev[0], cellErrorsMessages=["Region block duplicate"]))
+                        if not any(
+                            e.x == prev[0] and e.y == prev[1]
+                            for e in verifyRegionIn.errorCells
+                        ):
+                            verifyRegionIn.errorCells.append(
+                                wrongCell(
+                                    x=prev[1],
+                                    y=prev[0],
+                                    cellErrorsMessages=["Region block duplicate"],
+                                )
+                            )
                     else:
                         seen[val] = (row, col)
     return verifyRegionIn
 
 
 # Merge error messages for same cell, it should simplify UI mapping
-def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wrongCell]:   
+def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wrongCell]:
     merged = {}
     for cell in wrongCellsList:
         key = (cell.x, cell.y)
@@ -177,9 +227,13 @@ def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wron
             error = [error]
 
         if key not in merged:
-            merged[key] = wrongCell(x=cell.x, y=cell.y, cellErrorsMessages=list(set(error)))
+            merged[key] = wrongCell(
+                x=cell.x, y=cell.y, cellErrorsMessages=list(set(error))
+            )
         else:
-            merged[key].cellErrorsMessages = sorted(list(set(merged[key].cellErrorsMessages + error)))
+            merged[key].cellErrorsMessages = sorted(
+                list(set(merged[key].cellErrorsMessages + error))
+            )
 
     return list(merged.values())
 
@@ -187,11 +241,13 @@ def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wron
 def verify_empty_cells(verifyEmptyIn: ResponseVerifyGrid):
     oneOfCellsIsEmpty = False
     for row in verifyEmptyIn.grid:
-            for val in row:
-                if val in (0, None, ""):
-                    oneOfCellsIsEmpty = True
-    
+        for val in row:
+            if val in (0, None, ""):
+                oneOfCellsIsEmpty = True
+
     if oneOfCellsIsEmpty == True:
-        verifyEmptyIn.errorsMessages.append("To finish sudoky all cells should be populated with valuse 1-9.")
+        verifyEmptyIn.errorsMessages.append(
+            "To finish sudoky all cells should be populated with valuse 1-9."
+        )
 
     return verifyEmptyIn
