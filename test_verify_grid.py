@@ -1,5 +1,6 @@
 from board_mocks import mock1, mock2, mock1_resolved_as_array, mock1_as_array
 from verify_grid import verify_grid, wrongCell
+import copy
 
 
 def test_verify_grid_response_happy_path_resolved_mock1():
@@ -14,7 +15,7 @@ def test_verify_grid_response_happy_path_resolved_mock1():
 
 
 def test_verify_grid_response_happy_path_one_change():
-    oneChangeArray = mock1_as_array
+    oneChangeArray = copy.deepcopy(mock1_as_array)
     # Here we simulate change 0 to good value 5 in x:3,y:5
     (oneChangeArray[5])[3] = 5
 
@@ -31,7 +32,7 @@ def test_verify_grid_response_happy_path_one_change():
 
 
 def test_verify_grid_response_happy_path_not_finished_game_five_changes():
-    fiveChangesArray = mock1_as_array
+    fiveChangesArray = copy.deepcopy(mock1_as_array)
     # Here we simulate change 0 to good value 5 in x:3,y:5
     (fiveChangesArray[0])[8] = 4
     (fiveChangesArray[1])[7] = 3
@@ -40,6 +41,7 @@ def test_verify_grid_response_happy_path_not_finished_game_five_changes():
     (fiveChangesArray[7])[1] = 2
 
     verifyGrifResult = verify_grid("mock1", fiveChangesArray)
+
     assert verifyGrifResult.gridId == "mock1"
     assert verifyGrifResult.grid != []
     # And expecting that these values are returned in response
@@ -51,7 +53,7 @@ def test_verify_grid_response_happy_path_not_finished_game_five_changes():
 
 
 def test_verify_grid_cheating_error():
-    cheatingChangesArray = mock1_as_array
+    cheatingChangesArray = copy.deepcopy(mock1_as_array)
     # Here we simulate change noneditable 5 to bad value 0 in x:0,y:0
     # and change noneditable 3 to good bad 1 in x:1,y:0
     # and change 0 to good value 3 in x:7,y:1
@@ -84,13 +86,15 @@ def test_verify_grid_cheating_error():
 
 
 def test_verify_grid_response_vertical_duplicate_error():
-    verticalDuplicatesChangesArray = mock1_as_array
+    verticalDuplicatesChangesArray = copy.deepcopy(mock1_as_array)
     # Here we simulate change 0 to bad value 7 in x:7,y:1
     # and change 0 to good value 5 in x:4,y:4
     (verticalDuplicatesChangesArray[1])[7] = 7
     (verticalDuplicatesChangesArray[4])[4] = 5
 
     verifyGrifResult = verify_grid("mock1", verticalDuplicatesChangesArray)
+
+    print(mock1_as_array)
     assert verifyGrifResult.gridId == "mock1"
     assert verifyGrifResult.grid != []
     # And expecting that both these values are returned in response
@@ -112,7 +116,7 @@ def test_verify_grid_response_vertical_duplicate_error():
 
 
 def test_verify_grid_response_horisontal_duplicate_error():
-    horisontlDuplicatesChangesArray = mock1_as_array
+    horisontlDuplicatesChangesArray = copy.deepcopy(mock1_as_array)
     # Here we simulate change 0 to bad value 9 in x:7,y:1
     # and change 0 to good value 5 in x:4,y:4
     (horisontlDuplicatesChangesArray[1])[7] = 9
