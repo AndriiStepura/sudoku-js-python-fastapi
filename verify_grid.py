@@ -39,11 +39,7 @@ def verify_grid(gridId, grid):
 
     verifyGridResults = verify_region_duplicates(verifyGridResults)
 
-    # TODO add here def verify_empty_cells function to return info about not populated cells
-    # And add them to errorCells list
-    # error4 = wrongCell(x=any,y=any,cellErrorsMessages="Missed value")
-    # verifyGridResults.errorCells.append(error4)
-    # verifyGridResults.errorsMessages = "To finish sudoky all cells should be populated with valuse 1-9"
+    verifyGridResults = verify_empty_cells(verifyGridResults)
 
     verifyGridResults.errorCells = merge_error_cells_records(verifyGridResults.errorCells)
 
@@ -186,3 +182,16 @@ def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wron
             merged[key].cellErrorsMessages = sorted(list(set(merged[key].cellErrorsMessages + error)))
 
     return list(merged.values())
+
+
+def verify_empty_cells(verifyEmptyIn: ResponseVerifyGrid):
+    oneOfCellsIsEmpty = False
+    for row in verifyEmptyIn.grid:
+            for val in row:
+                if val in (0, None, ""):
+                    oneOfCellsIsEmpty = True
+    
+    if oneOfCellsIsEmpty == True:
+        verifyEmptyIn.errorsMessages.append("To finish sudoky all cells should be populated with valuse 1-9.")
+
+    return verifyEmptyIn

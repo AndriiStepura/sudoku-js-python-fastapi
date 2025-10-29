@@ -227,6 +227,42 @@ def test_verify_grid_response_region_duplicate_error():
     )
 
 
+
+def test_verify_grid_response_empty_cells_error():
+    verifyGrifResult = verify_grid(
+        "mock1",
+        [
+            # Here we simulate that few cells still not populated
+            [5, 3, 4, 6, 7, 8, 9, 1, 2],
+            [6, 7, 2, 1, 9, 5, 3, 0, 8],
+            [1, 9, 8, 3, 4, 2, 5, 6, 7],
+            [8, 5, 9, 7, 6, 1, 4, 2, 3],
+            [4, 2, 6, 8, 0, 3, 7, 9, 1],
+            [7, 1, 3, 9, 2, 4, 8, 5, 6],
+            [9, 6, 1, 5, 3, 7, 2, 8, 4],
+            [2, 8, 7, 4, 1, 9, 6, 3, 5],
+            [3, 4, 5, 2, 8, 6, 1, 7, 9],
+        ],
+    )
+    assert verifyGrifResult.gridId == "mock1"
+    assert verifyGrifResult.grid == [
+            [5, 3, 4, 6, 7, 8, 9, 1, 2],
+            [6, 7, 2, 1, 9, 5, 3, 0, 8],
+            [1, 9, 8, 3, 4, 2, 5, 6, 7],
+            [8, 5, 9, 7, 6, 1, 4, 2, 3],
+            [4, 2, 6, 8, 0, 3, 7, 9, 1],
+            [7, 1, 3, 9, 2, 4, 8, 5, 6],
+            [9, 6, 1, 5, 3, 7, 2, 8, 4],
+            [2, 8, 7, 4, 1, 9, 6, 3, 5],
+            [3, 4, 5, 2, 8, 6, 1, 7, 9],
+    ]
+    # Empty cells is not an cell error as it's normal game process
+    assert len(verifyGrifResult.errorCells) == 0
+    # But we want to propagate this as a message to UI
+    assert (verifyGrifResult.errorsMessages == ["To finish sudoky all cells should be populated with valuse 1-9."]
+    )
+
+
 def test_verify_grid_response_for_vertical_and_horisontal_duplicates_errors():
     verifyGrifResult = verify_grid(
         "mock1",
