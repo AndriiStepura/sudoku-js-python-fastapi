@@ -33,17 +33,14 @@ def verify_grid(gridId, grid):
     # If post grid with try to overwright changeable=False base cells - throw Critical allert back
     verifyGridResults = verify_cheating_helper(verifyGridResults)
 
+    # TODO refactor actually all functions to validation below can return just errors and be run in parallel
     verifyGridResults = verify_vertical_duplicates(verifyGridResults)
-
     verifyGridResults = verify_horisontal_duplicates(verifyGridResults)
-
     verifyGridResults = verify_region_duplicates(verifyGridResults)
-
     verifyGridResults = verify_empty_cells(verifyGridResults)
 
-    verifyGridResults.errorCells = merge_error_cells_records(
-        verifyGridResults.errorCells
-    )
+    # Merge errors for same cell in one error list to simplify UI
+    verifyGridResults.errorCells = merge_error_cells_records(verifyGridResults.errorCells)
 
     return verifyGridResults
 
@@ -216,7 +213,6 @@ def verify_region_duplicates(verifyRegionIn: ResponseVerifyGrid):
     return verifyRegionIn
 
 
-# Merge error messages for same cell, it should simplify UI mapping
 def merge_error_cells_records(wrongCellsList: List[Dict[str, Any]]) -> List[wrongCell]:
     merged = {}
     for cell in wrongCellsList:
