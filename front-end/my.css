@@ -11,13 +11,14 @@ kbd {
 
 #gameBoard {
     min-width: 480px; 
-    max-width: 600px;
+    max-width: 580px;
     margin: 0 auto;
 }
 
 #gameBoard input {
     text-align: center;
     margin-bottom:0;
+    height: 0.2rem
 }
 
 .tooltip {
