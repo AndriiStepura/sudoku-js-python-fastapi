@@ -1,12 +1,16 @@
-async function loadGrid() {
+async function loadGrid(gridIdIn = "mock1") {
   try {
-    const response = await fetch('http://127.0.0.1:8000/newgrid?gridId=mock1');
+  if (checkGridId() != gridIdIn) {
+    document.getElementById('gridId').value = gridIdIn
+  }
+  console.log("gridIdIn is " + gridIdIn)  
+    getEndPoint = "http://127.0.0.1:8000/newgrid?gridId=" + gridIdIn;
+    const response = await fetch(getEndPoint);
     if (!response.ok) throw new Error('Network response was not ok');
-
     const data = await response.json();
     const grid = data.grid;
-    console.log(data)
-    console.log(grid.length)
+    // console.log(data)
+    // console.log(grid.length)
     const boardContainer = document.getElementById('grid-container');
     // console.log(data)
 
@@ -36,7 +40,6 @@ async function loadGrid() {
   }
 }
 
-
 function collectGridValues() {
   const inputs = document.querySelectorAll('input[id^="cell-"]');
   const values = Array.from(inputs).map(inp => {
@@ -54,9 +57,12 @@ function collectGridValues() {
 }
 
 async function verifySudoku() {
+  gridId = checkGridId()
+  console.log("gridIdIn is " + gridId)
+
   const grid = collectGridValues();
   const payload = {
-    gridId: "mock1",
+    gridId: gridId,
     grid: grid
   };
 
@@ -109,5 +115,10 @@ function showCriticalErrors(errors) {
   criticalErrorsContainer.appendChild(ul);
 }
 
+function checkGridId(){
+  // use this input field as temp storage for gridId value, alternatively - localStorage option  
+  return document.getElementById('gridId').value;
+}
+
 // Call on page load
-window.onload = loadGrid;
+window.onload = loadGrid();
