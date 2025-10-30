@@ -72,29 +72,30 @@ table {
         border: 0px dashed Grey;   
       }
 
-    td {
+td {
     border: 1px thin Grey;        
     text-align: center;
     vertical-align: middle;
     width: 20px;
     height: 20px;
-    }
+}
 
-    input {
-        color: #000000;
-        padding: 0;
-        border: 0;
-        text-align: center;
-        width: 20px;
-        height: 20px;
-        font-size: 16px;
-        background-color: #FFFFFF;
-        outline: none;
-      }
+input {
+    color: #000000;
+    padding: 0;
+    border: 0;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    background-color: #eeeeeebd;
+    outline: none;
+}
 
-      input:disabled {
-        background-color: #EEEEEE;
-      }
+input:disabled {
+        color: #616161;       
+        background-color: #a8a8a800;        
+}
 
 
 /* owerwrite table color for dark mode */      

@@ -49,11 +49,11 @@
         </div>
         <div>            
           <button class="outline" onclick="loadGrid('mock1')">Play board #1</button>
-          <button class="outline secondary populateBtn" onclick="populateBoard('mock1')">Populate board #1</button>
+          <button class="outline secondary populateBtn" onclick="populateGrid('mock1')">Populate board #1</button>
         </div>
         <div>
           <button class="outline" onclick="loadGrid('mock2')">Play board #2</button>
-          <button class="outline secondary populateBtn" onclick="playBoard('mock2')">Populate board #2</button>
+          <!-- <button class="outline secondary populateBtn" onclick="populateGrid('mock1')">Populate board #2 [TBD]</button> -->
         </div>
         <div>
             <button class="outline secondary" style="cursor:not-allowed">Generate new [TBD]</button>          
@@ -127,7 +127,7 @@
             <input type="range" min="0" max="100" value="50" id="range" name="range">
           </label> -->        
 <div class="grid">
-  <input type="submit" value="Verify sudoku" onclick="verifySudoku()">
+  <input type="button" value="Verify sudoku" onclick="verifySudoku()">
   <input type="reset" value="Clean all cells">
 </div>
         </form>
@@ -138,12 +138,6 @@
           <div id="criticalErrors">
           </div>
           <div id="validationErrors"> 
-            <h3>Validation errors</h3>
-            <ul>
-              <li><mark>Validation error 1</mark></li>
-              <li><mark>Validation error 2</mark></li>
-              <li><mark>Validation error 3</mark></li>          
-            </ul>  
           </div>
         </div>
       </section>

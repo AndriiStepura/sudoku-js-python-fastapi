@@ -1,10 +1,10 @@
-async function loadGrid(gridIdIn = "mock1") {
+async function loadGrid(gridId="mock1") {
+  
   try {
-  if (checkGridId() != gridIdIn) {
-    document.getElementById('gridId').value = gridIdIn
-  }
-  console.log("gridIdIn is " + gridIdIn)  
-    getEndPoint = "http://127.0.0.1:8000/newgrid?gridId=" + gridIdIn;
+    document.getElementById('gridId').value = gridId;
+    console.log("gridId in loadGrid is " + gridId);
+    
+    getEndPoint = "http://127.0.0.1:8000/newgrid?gridId=" + gridId;
     const response = await fetch(getEndPoint);
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
@@ -12,7 +12,6 @@ async function loadGrid(gridIdIn = "mock1") {
     // console.log(data)
     // console.log(grid.length)
     const boardContainer = document.getElementById('grid-container');
-    // console.log(data)
 
     boardContainer.innerHTML = ''; // clear old content
 
@@ -36,7 +35,8 @@ async function loadGrid(gridIdIn = "mock1") {
     }
 
   } catch (error) {
-    console.error('Error fetching grid:', error);
+    console.log("error is " + error);
+    console.error('Error fetching grid:', error);    
   }
 }
 
@@ -57,10 +57,12 @@ function collectGridValues() {
 }
 
 async function verifySudoku() {
+  // console.log("Hi from verifySudoku")
   gridId = checkGridId()
   console.log("gridIdIn is " + gridId)
 
   const grid = collectGridValues();
+  // console.log(grid)
   const payload = {
     gridId: gridId,
     grid: grid
@@ -78,18 +80,23 @@ async function verifySudoku() {
       console.log('Server response:', result);
       // Propagate verification errors to UI
       showCriticalErrors(result.errorsMessages);
+      showValidationErrors(result.errorCells);
   } catch (error) {
     console.error('Error sending grid:', error);
     showCriticalErrors(error);
   }  
+
 }
 
 function showCriticalErrors(errors) {
-  const criticalErrorsContainer = document.getElementById('criticalErrors');
+  let success = false;
+  const criticalErrorsContainer = document.getElementById('criticalErrors');  
   criticalErrorsContainer.innerHTML = ''; // clear old content
 
   if (!errors || errors.length === 0) {
-    return; // nothing to show
+    // if no errors - looks like your resolved this sudoku
+    success = true;
+    errors.push("CONGRATULATIONS SUDOKU RESOLVED");
   }
 
   // Create heading
@@ -105,6 +112,8 @@ function showCriticalErrors(errors) {
     const li = document.createElement('li');
     const mark = document.createElement('mark');
     const kbd = document.createElement('kbd');
+    if (success) { kbd.style.cssText = "background-color: green;" }
+    
     kbd.textContent = err;
 
     mark.appendChild(kbd);
@@ -115,10 +124,81 @@ function showCriticalErrors(errors) {
   criticalErrorsContainer.appendChild(ul);
 }
 
-function checkGridId(){
+
+
+function showValidationErrors(errors) {
+  const validationErrorsContainer = document.getElementById('validationErrors');
+  validationErrorsContainer.innerHTML = ''; // clear old content
+
+  if (!errors || errors.length === 0) {
+    return; // nothing to show
+  }
+
+  // Create heading
+  const title = document.createElement('h3');
+  title.textContent = 'Validation errors';
+  validationErrorsContainer.appendChild(title);
+
+  // Create list
+  const ul = document.createElement('ul');
+
+  // Put list of errors
+  errors.forEach(err => {
+    const li = document.createElement('li');
+    const mark = document.createElement('mark');
+    mark.textContent = ("x:"+err.x+"y:"+err.y+" errors - " + err.cellErrorsMessages.toString());
+    li.appendChild(mark);
+    ul.appendChild(li);
+  });
+
+  validationErrorsContainer.appendChild(ul);
+}
+
+
+function checkGridId() {  
+  console.log("on load " + document.getElementById('gridId').value)
   // use this input field as temp storage for gridId value, alternatively - localStorage option  
   return document.getElementById('gridId').value;
 }
+
+
+function populateGrid(gridId) {
+  if (gridId == "mock1") {
+    // mock1_resolved_as_array
+    gridArray = [
+      [5, 3, 4, 6, 7, 8, 9, 1, 2],
+      [6, 7, 2, 1, 9, 5, 3, 4, 8],
+      [1, 9, 8, 3, 4, 2, 5, 6, 7],
+      [8, 5, 9, 7, 6, 1, 4, 2, 3],
+      [4, 2, 6, 8, 5, 3, 7, 9, 1],
+      [7, 1, 3, 9, 2, 4, 8, 5, 6],
+      [9, 6, 1, 5, 3, 7, 2, 8, 4],
+      [2, 8, 7, 4, 1, 9, 6, 3, 5],
+      [3, 4, 5, 2, 8, 6, 1, 7, 9]
+    ]
+  }
+
+ if (!Array.isArray(gridArray) || gridArray.length === 0) {
+    console.error("Invalid grid array");
+    return;
+  }
+
+  let index = 0;
+  for (let row = 0; row < gridArray.length; row++) {
+    for (let col = 0; col < gridArray[row].length; col++) {
+      const value = gridArray[row][col];
+      const input = document.getElementById(`cell-${index}`);
+
+      if (input) {
+        input.value = value === 0 || value === null ? '' : value;
+      }
+
+      index++;
+    }
+  }
+}
+
+
 
 // Call on page load
 window.onload = loadGrid();
