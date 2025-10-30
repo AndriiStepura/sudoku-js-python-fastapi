@@ -47,6 +47,15 @@
             </ul>
           </nav>
         </div>
+        <div>
+            <button class="outline">Play board #1</button>            
+        </div>
+        <div>
+            <button class="outline contrast">Play board #2</button>
+        </div>
+        <!-- <div>
+            <button class="outline secondary" style="cursor:not-allowed">Generate new [TBD]</button>          
+        </div> -->
       </div>         
     </header>
     <!-- ./ Header -->
@@ -67,12 +76,6 @@
 
 
       <section id="form">
-          <p class="grid">
-            <button class="outline">Play board #1</button>            
-            <button class="outline contrast">Play board #2</button>
-            <button class="outline secondary" style="cursor:not-allowed">Generate new [TBD]</button>
-          </p>
-
         <!-- 
         <input type="text" value="5">
         <input type="text" id="valid" name="valid" placeholder="Valid" aria-invalid="false">
@@ -83,8 +86,6 @@
                 <span class="tooltiptext">Some tooltip text</span>
               </div>
         <input type="text" id="invalid" name="invalid" value="?" aria-invalid="true">
-
-
         Cell with tooltip:
                 <div class="tooltip">
                     <input id="cell-2"  type="text" value="02" aria-invalid="true" aria-invalid="true">
@@ -94,8 +95,11 @@
 
         <form>
           <section id="gameBoard">
-
             <table>
+              <tbody id="grid-container">
+                  <!-- Game Board will be rendered here by /js/sudoku.js -->
+              </tbody>
+<!-- 
               <tr>
                 <td><input id="cell-0"  type="text" value="00" disabled></td>
                 <td><input id="cell-1"  type="text" value="01" disabled></td>
@@ -220,7 +224,7 @@
                 <td><input id="cell-78" type="text"></td>
                 <td><input id="cell-79" type="text" value="7" disabled></td>
                 <td><input id="cell-80" type="text" value="9" disabled></td>
-              </tr>
+              </tr> -->
 
             </table>
 
