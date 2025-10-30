@@ -1,9 +1,18 @@
 /* let's overwright Pico spaces to fit gameboard */
+:root
+{
+    --pico-block-spacing-vertical: 0.1rem;
+}
+
 #gameBoard td {
   /* --pico-form-element-spacing-horizontal: 0.1rem; */
   /* --pico-form-element-spacing-vertical: 0.1rem; */
   padding: 0.1rem 0.1rem;
 } 
+
+header {
+    padding-bottom: 0;
+}
 
 kbd {
     background-color: red;
@@ -11,14 +20,16 @@ kbd {
 
 #gameBoard {
     min-width: 480px; 
-    max-width: 580px;
+    max-width: 980px;
     margin: 0 auto;
+    --pico-form-element-spacing-horizontal: 0.1rem;
 }
 
 #gameBoard input {
     text-align: center;
     margin-bottom:0;
-    height: 0.2rem
+    height: 0.2rem;
+    width: 30px;
 }
 
 .tooltip {
@@ -47,11 +58,11 @@ kbd {
 
 /* styles below based on gist https://gist.github.com/thebinarypenguin/4d45ffe87096e508800b5d11544bf2fa and modified */
 table {
-        border: 2px dashed Grey;
+        border: 0px dashed Grey;
       }
 
       td {
-        border: 1px solid Grey;
+        border: 1px thin Grey;
         text-align: center;
         vertical-align: middle;
         width: 20px;
