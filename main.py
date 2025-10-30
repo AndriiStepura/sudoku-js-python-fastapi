@@ -1,10 +1,19 @@
 from board_mocks import mock1, mock2
 from verify_grid import verify_grid, RequestVerifyGrid
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
@@ -27,7 +36,7 @@ def get_newgrid(gridId: str = "mock1"):
         responseErrors.append(f"gridId {gridId} NOT FOUND")
 
     if len(responseErrors) == 0:
-        return {"gridId": gridId, "grid": [gridInResponse]}
+        return {"gridId": gridId, "grid": gridInResponse}
     else:
         # https://fastapi.tiangolo.com/tutorial/handling-errors/#use-httpexception
         raise HTTPException(status_code=404, detail=responseErrors)
