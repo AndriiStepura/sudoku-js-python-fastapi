@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>SUDOKU POC - FastAPI Python back-end with Pure CSS HTML front-end v. 0.9 MVP</title>
+    <meta name="description" content="SUDOKU POC - FastAPI Python back-end with Pure CSS HTML front-end v. 0.9 MVP">
+
+    <!-- Pico.css -->
+    <link
+      rel="stylesheet"
+      href="pico.min.css"
+    >
+
+    <!-- my.css -->
+    <link
+      rel="stylesheet"
+      href="my.css"
+    >
+
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="container">
+      <div class="grid">
+        <div>
+          <hgroup>
+            <h1>SUDOKU</h1>
+            <p>FastAPI Python back-end with Pure CSS HTML front-end v. 0.9 MVP</p>
+          </hgroup>
+        </div>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <details class="dropdown">
+                  <summary role="button" class="secondary">Theme</summary>
+                  <ul>
+                    <li><a href="#" data-theme-switcher="auto">Auto</a></li>
+                    <li><a href="#" data-theme-switcher="light">Light</a></li>
+                    <li><a href="#" data-theme-switcher="dark">Dark</a></li>
+                  </ul>
+                </details>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>         
+    </header>
+    <!-- ./ Header -->
+
+    <!-- Main -->
+    <main class="container">
+
+      <!-- <section id="preview">
+        <form>
+          <fieldset>
+            <label for="terms">
+              <input type="checkbox" role="switch" id="autoUpdate" name="autoUpdate">
+                Auto send to verification
+            </label>
+          </fieldset>
+        </form>
+      </section> -->
+
+
+      <section id="form">
+          <p class="grid">
+            <button class="outline">Play board #1</button>            
+            <button class="outline contrast">Play board #2</button>
+            <button class="outline secondary" style="cursor:not-allowed">Generate new [TBD]</button>
+          </p>
+
+        <!-- 
+        <input type="text" value="5">
+        <input type="text" id="valid" name="valid" placeholder="Valid" aria-invalid="false">
+        <input type="text" id="disabled" name="disabled" placeholder="Disabled" disabled>
+        <input type="text" id="valid" name="valid" placeholder="Valid" aria-invalid="false"> 
+        <div class="tooltip">
+                <input type="text" id="invalid" name="invalid" placeholder="9" aria-invalid="true">
+                <span class="tooltiptext">Some tooltip text</span>
+              </div>
+        <input type="text" id="invalid" name="invalid" value="?" aria-invalid="true">
+
+
+        Cell with tooltip:
+                <div class="tooltip">
+                    <input id="cell-2"  type="text" value="02" aria-invalid="true" aria-invalid="true">
+                    <span class="tooltiptext">Region and horisontal errors tooltip example</span>
+                  </div> 
+        -->        
+
+        <form>
+          <section id="gameBoard">
+
+            <table>
+              <tr>
+                <td><input id="cell-0"  type="text" value="00" disabled></td>
+                <td><input id="cell-1"  type="text" value="01" disabled></td>
+                <td><input id="cell-2"  type="text"></td>
+                
+                <td><input id="cell-3"  type="text"></td>
+                <td><input id="cell-4"  type="text" value="7" disabled></td>
+                <td><input id="cell-5"  type="text"></td>
+                
+                <td><input id="cell-6"  type="text"></td>
+                <td><input id="cell-7"  type="text"></td>
+                <td><input id="cell-8"  type="text"></td>
+              </tr>
+
+              <tr>
+                <td><input id="cell-9"  type="text" value="6" disabled></td>
+                <td><input id="cell-10" type="text"></td>
+                <td><input id="cell-11" type="text"></td>
+                
+                <td><input id="cell-12" type="text" value="1" disabled></td>
+                <td><input id="cell-13" type="text" value="9" disabled></td>
+                <td><input id="cell-14" type="text" value="5" disabled></td>
+                
+                <td><input id="cell-15" type="text"></td>
+                <td><input id="cell-16" type="text"></td>
+                <td><input id="cell-17" type="text"></td>
+              </tr>
+
+              <tr>          
+                <td><input id="cell-18" type="text"></td>
+                <td><input id="cell-19" type="text" value="9" disabled></td>
+                <td><input id="cell-20" type="text" value="8" disabled></td>
+                
+                <td><input id="cell-21" type="text"></td>
+                <td><input id="cell-22" type="text"></td>
+                <td><input id="cell-23" type="text"></td>
+                
+                <td><input id="cell-24" type="text"></td>
+                <td><input id="cell-25" type="text" value="6" disabled></td>
+                <td><input id="cell-26" type="text"></td>
+              </tr>
+
+              <tr>          
+                <td><input id="cell-27" type="text" value="8" disabled></td>
+                <td><input id="cell-28" type="text"></td>
+                <td><input id="cell-29" type="text"></td>
+                
+                <td><input id="cell-30" type="text"></td>
+                <td><input id="cell-31" type="text" value="6" disabled></td>
+                <td><input id="cell-32" type="text"></td>
+                
+                <td><input id="cell-33" type="text"></td>
+                <td><input id="cell-34" type="text"></td>
+                <td><input id="cell-35" type="text" value="3" disabled></td>
+              </tr>
+
+              <tr>          
+                <td><input id="cell-36" type="text" value="4" disabled></td>
+                <td><input id="cell-37" type="text"></td>
+                <td><input id="cell-38" type="text"></td>
+                
+                <td><input id="cell-39" type="text" value="8" disabled></td>
+                <td><input id="cell-40" type="text"></td>
+                <td><input id="cell-41" type="text" value="3" disabled></td>
+                
+                <td><input id="cell-42" type="text"></td>
+                <td><input id="cell-43" type="text"></td>
+                <td><input id="cell-44" type="text" value="1" disabled></td>
+              </tr>
+
+              <tr>          
+                <td><input id="cell-45" type="text" value="7" disabled></td>
+                <td><input id="cell-46" type="text"></td>
+                <td><input id="cell-47" type="text"></td>
+                
+                <td><input id="cell-48" type="text"></td>
+                <td><input id="cell-49" type="text" value="2" disabled></td>
+                <td><input id="cell-50" type="text"></td>
+                
+                <td><input id="cell-51" type="text"></td>
+                <td><input id="cell-52" type="text"></td>
+                <td><input id="cell-53" type="text" value="6" disabled></td>
+              </tr>
+
+              <tr>          
+                <td><input id="cell-54" type="text"></td>
+                <td><input id="cell-55" type="text" value="6" disabled></td>
+                <td><input id="cell-56" type="text"></td>
+                
+                <td><input id="cell-57" type="text"></td>
+                <td><input id="cell-58" type="text"></td>
+                <td><input id="cell-59" type="text"></td>
+                
+                <td><input id="cell-60" type="text" value="2" disabled></td>
+                <td><input id="cell-61" type="text" value="8" disabled></td>
+                <td><input id="cell-62" type="text"></td>
+              </tr>
+
+              <tr>          
+                <td><input id="cell-63" type="text"></td>
+                <td><input id="cell-64" type="text"></td>
+                <td><input id="cell-65" type="text"></td>
+                
+                <td><input id="cell-66" type="text" value="4" disabled></td>
+                <td><input id="cell-67" type="text" value="1" disabled></td>
+                <td><input id="cell-68" type="text" value="9" disabled></td>
+                
+                <td><input id="cell-69" type="text"></td>
+                <td><input id="cell-70" type="text"></td>
+                <td><input id="cell-71" type="text" value="5" disabled></td>
+              </tr>
+
+              <tr>          
+                <td><input id="cell-72" type="text"></td>
+                <td><input id="cell-73" type="text"></td>
+                <td><input id="cell-74" type="text"></td>
+                
+                <td><input id="cell-75" type="text"></td>
+                <td><input id="cell-76" type="text" value="8" disabled></td>
+                <td><input id="cell-77" type="text"></td>
+                
+                <td><input id="cell-78" type="text"></td>
+                <td><input id="cell-79" type="text" value="7" disabled></td>
+                <td><input id="cell-80" type="text" value="9" disabled></td>
+              </tr>
+
+            </table>
+
+    </div>
+
+          </section>
+          
+          <!-- Range slider control -->
+          <!-- <label for="range">Range slider
+            <input type="range" min="0" max="100" value="50" id="range" name="range">
+          </label> -->        
+
+        </form>
+      </section>
+
+      <section id="errors">
+        <div class="grid">
+          <input type="submit" value="Verify sudoku" onclick="event.preventDefault()">
+          <input type="reset" value="Reset" onclick="event.preventDefault()">
+        </div>
+
+        <h2>Critical errors</h2>
+        <p>
+          <kbd>Here critical errors like cheating</kbd>
+        </p>
+
+        <h3>Validation errors</h3>
+        <ul>
+          <li><mark>Validation error 1</mark></li>
+          <li><mark>Validation error 2</mark></li>
+          <li><mark>Validation error 3</mark></li>          
+        </ul>  
+      </section>
+
+            
+      <!-- Progress -->
+      <!-- <section id="progress">
+        <h2>Progress bar</h2>
+        <progress id="progress-1" value="25" max="100"></progress>
+        <progress id="progress-2"></progress>
+      </section> -->
+      <!-- ./ Progress -->
+
+      <!-- Loading -->
+      <!-- <section id="loading">
+        <h2>Loading</h2>
+        <article aria-busy="true"></article>
+        <button aria-busy="true">Please wait…</button>
+      </section> -->
+      <!-- ./ Loading -->
+    </main>
+    <!-- ./ Main -->
+
+    <!-- Footer -->
+    <footer class="container">
+      <small
+        >Built with <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a> and <a href="https://picocss.com" target="_blank">Pico</a> and <a href="https://gist.github.com/thebinarypenguin/4d45ffe87096e508800b5d11544bf2fa" target="_blank">sudoku board gist</a> •
+        <a href="https://github.com/AndriiStepura/sudoku-js-python-fastapi"
+          >Sudoku POC source code</a
+        ></small
+      >
+    </footer>
+    <!-- ./ Footer -->
+
+    <!-- Minimal theme switcher -->
+    <script src="js/minimal-theme-switcher.js"></script>
+
+    <script src="js/sudoku.js"></script>
+
+  </body>
+</html>

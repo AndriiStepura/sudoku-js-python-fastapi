@@ -5,12 +5,11 @@ Git repo - https://github.com/AndriiStepura/sudoku-js-python-fastapi
 
 # How to run
 
-Back-end env run preconditions are:
-
+## Back-end
+For back-end API env to run preconditions are:
 1. Python - v3+ https://www.python.org/downloads/
 2. pip - https://packaging.python.org/en/latest/tutorials/installing-packages/
-3. fastapi and uvicorn packages:
-
+3. fastapi and uvicorn packages, can be installed with:
 ```
 pip install fastapi
 pip install uvicorn
@@ -19,7 +18,7 @@ pip install uvicorn
 To run back-end python with fast API in root folder path execute in terminal:
 `uvicorn main:app --reload`
 
-# Endpoints notes
+### Endpoints notes
 
 Documentation - http://127.0.0.1:8000/docs
 
@@ -33,7 +32,7 @@ Get new game board POST /verifygrid
 `curl --location 'http://127.0.0.1:8000/verifygrid'`  
 PARAMS TBD
 
-# Unit tests
+#### Unit tests
 
 We use pytest for unit tests to configure your VSC IDE run:  
 `Python: Configure Tests`
@@ -45,9 +44,17 @@ To debug app locally in VSC IDE follow guide
 https://fastapi.tiangolo.com/tutorial/debugging/#run-your-code-with-your-debugger
 or navigate to Run and Debug (Ctrl+Shift+D and F5 to start)
 
-# Formatting
+#### Formatting
 
 https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
+
+
+## Front-end
+Located in /front-end/ path, based on [Pico CSS Pure HTML](https://picocss.com/examples)  
+
+
+
+
 
 # Few general important notes about implementation
 
