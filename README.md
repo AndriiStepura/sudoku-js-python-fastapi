@@ -19,7 +19,7 @@ pip install uvicorn
 ```
 
 To run backend from local code in `cd backend` folder path execute in terminal:
-`uvicorn main:app --reload`
+`uvicorn main:app --reload --host 127.0.0.1 --port 8000`
 
 And switch front-end config to proper back-end in first lines `/frontend/static/sudoku.js`
 For local run and debug use `http://127.0.0.1:8000`
@@ -78,20 +78,28 @@ https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter
 Located in /frontend/ path, based on [Pico CSS Pure HTML](https://picocss.com/examples)
 
 ## Docker
+Image in Docker hub - https://hub.docker.com/r/andriistepura30602/sudokujspythonfastapi 
+you can pill and run:
+```
+docker pull andriistepura30602/sudokujspythonfastapi
+docker run -d --name mysudokucontainer -p 8000:8000 docker.io/andriistepura30602/sudokujspythonfastapi:latest
+```
+and open in browser http://localhost:8000/
+
 
 [FastAPI in Containers - Docker](https://fastapi.tiangolo.com/deployment/docker/)  
 
 0. Generate dependencies (when bump-up) 
-`pip3 freeze > requirements.txt`
+   `pip3 freeze > requirements.txt`
 
 1.  To build the Docker Image:
     `docker build -t sudokujspythonfastapi:v1.1 .`
 
 2.  Start the Docker Container:
-    `docker run -d --name mysudokucontainer -p 8000:8000 sudokujspythonfastapi:v1.1`
+    `docker run -d --name mysudokucontainer -p 8000:8000 docker.io/andriistepura30602/sudokujspythonfastapi:latest`
 
 3.  To open in browser UI (frontend) from container which connected to backend in the same container:
-    http://localhost:8000/
+    pos
 
 
 <hr>
