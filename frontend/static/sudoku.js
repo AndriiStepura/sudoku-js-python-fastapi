@@ -1,11 +1,15 @@
-const host = "http://127.0.0.1:8000"
+const host = "http://localhost:8000" // Dokerized host
+// For local debug
+// const host = "http://127.0.0.1:8000"
+
+const apiVersion = "v1"
 
 async function loadGrid(gridId = "mock1") {
   try {
     document.getElementById("gridId").value = gridId;
     console.log("gridId in loadGrid is " + gridId);
 
-    getEndPoint = host + "/newgrid?gridId=" + gridId;
+    getEndPoint = host + "/" + apiVersion + "/newgrid?gridId=" + gridId;
     const response = await fetch(getEndPoint);
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
@@ -69,7 +73,7 @@ async function verifySudoku() {
   };
 
   try {
-    const response = await fetch(host + "/verifygrid/", {
+    const response = await fetch(host + "/" + apiVersion + "/verifygrid/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

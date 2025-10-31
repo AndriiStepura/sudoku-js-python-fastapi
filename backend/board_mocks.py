@@ -1,4 +1,4 @@
-from board import convert_board
+from .board import convert_board
 
 
 # mock1

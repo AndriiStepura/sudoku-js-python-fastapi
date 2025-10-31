@@ -1,4 +1,4 @@
-from board import make_boardCell
+from .board import make_boardCell
 
 
 def test_default_BoardCell():

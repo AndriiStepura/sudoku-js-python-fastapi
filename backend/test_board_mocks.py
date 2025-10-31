@@ -1,6 +1,6 @@
 import json
 from json import JSONEncoder
-from board import convert_board
+from .board import convert_board
 
 
 # subclass JSONEncoder to make class BoardCell serializable

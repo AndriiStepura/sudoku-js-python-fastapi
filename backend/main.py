@@ -1,9 +1,12 @@
-from board_mocks import mock1, mock2
-from verify_grid import verify_grid, RequestVerifyGrid
+from .board_mocks import mock1, mock2
+from .verify_grid import verify_grid, RequestVerifyGrid
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+apiVersion = "v1"
 
 origins = ["*"]
 
@@ -15,7 +18,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount static folder to serve HTML/JS/CSS
+app.mount("/static", StaticFiles(directory="./frontend/static"), name="static")
+
+
 @app.get("/")
+def serve_frontend():
+    """Serve the main HTML page."""
+    return FileResponse("./frontend/index.html")
+
+
+@app.get("/{apiVersion}/")
 def root():
     return {
         "message": "I'm sudoku back-end with python FastAPI you can call to GET /newgrid to receive new sudoku game board or POST /verifygrid to validate your puzzle",
@@ -24,7 +37,7 @@ def root():
 
 
 # Endpoint to get new game board
-@app.get("/newgrid")
+@app.get("/{apiVersion}/newgrid")
 def get_newgrid(gridId: str = "mock1"):
     gridInResponse = []
     responseErrors = []
@@ -52,7 +65,7 @@ def get_newgrid(gridId: str = "mock1"):
 # https://fastapi.tiangolo.com/tutorial/bigger-applications/#an-example-file-structure
 
 
-@app.post("/verifygrid/")
+@app.post("/{apiVersion}/verifygrid/")
 async def post_verifygrid(request: RequestVerifyGrid):
     # TODO move error strings to common util for DRY
     responseValidationResult = verify_grid(request.gridId, request.grid)
