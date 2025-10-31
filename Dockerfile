@@ -3,22 +3,19 @@ FROM python:3.14-slim
 # FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 # FROM python:3.14.0-alpine3.22
 
-WORKDIR /backend
-
-COPY . .
-
-# ---- Install dependencies ----
-RUN pip install --no-cache-dir -r requirements.txt
-
 # ---- Copy app source ----
-COPY backend ./backend
+COPY . .
+COPY /backend/requirements.txt /backend
+
+# ---- Install dependencies
+RUN pip install --no-cache-dir -r /backend/requirements.txt
 
 # ---- Expose port ----
 EXPOSE 8000
 
+WORKDIR /backend
 # ---- Run server ----
-CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
-
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 
 # set path to our python api file
