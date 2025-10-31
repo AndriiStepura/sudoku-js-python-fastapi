@@ -1,5 +1,5 @@
-from .board_mocks import mock1, mock2, mock1_resolved_as_array, mock1_as_array
-from .verify_grid import verify_grid, wrongCell
+from board_mocks import mock1_resolved_as_array, mock1_as_array
+from verify_grid import verify_grid, wrongCell
 import copy
 
 

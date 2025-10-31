@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Dict, Any
-from .board import BoardCell
-from .board_mocks import mock1, mock2, convert_board
+from board import BoardCell
+from board_mocks import mock1, mock2, convert_board
 
 
 class wrongCell(BaseModel):

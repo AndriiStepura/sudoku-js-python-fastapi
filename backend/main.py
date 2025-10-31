@@ -1,5 +1,5 @@
-from .board_mocks import mock1, mock2
-from .verify_grid import verify_grid, RequestVerifyGrid
+from board_mocks import mock1, mock2
+from verify_grid import verify_grid, RequestVerifyGrid
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -19,13 +19,13 @@ app.add_middleware(
 )
 
 # Mount static folder to serve HTML/JS/CSS
-app.mount("/static", StaticFiles(directory="./frontend/static"), name="static")
+app.mount("/static", StaticFiles(directory="../frontend/static"), name="static")
 
 
 @app.get("/")
 def serve_frontend():
     """Serve the main HTML page."""
-    return FileResponse("./frontend/index.html")
+    return FileResponse("../frontend/index.html")
 
 
 @app.get("/{apiVersion}/")
